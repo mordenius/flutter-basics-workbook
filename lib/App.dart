@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _AppState();
+  }
+}
+
+class _AppState extends State<App> {
+  List<String> _questions = ["Question one?", "Question 2?"];
+  int _currentQuestion = 0;
+
   void _answerQuestion(String answer) {
     print('Answer is $answer');
+
+    setState(() {
+      _currentQuestion = 1;
+    });
   }
 
   @override
@@ -13,7 +27,7 @@ class App extends StatelessWidget {
         appBar: AppBar(title: Text("Title ")),
         body: Column(
           children: [
-            Text('Question?'),
+            Text(_questions[_currentQuestion]),
             _getAnswerVariant("Answer 1"),
             _getAnswerVariant("Answer 2"),
             _getAnswerVariant("Answer 3"),
