@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
+  void answerQuestion(String answer) {
+    print('Answer is $answer');
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -10,25 +14,20 @@ class App extends StatelessWidget {
         body: Column(
           children: [
             Text('Question?'),
-            RaisedButton(
-              child: Text("Answer 1"),
-              onPressed: () {},
-            ),
-            RaisedButton(
-              child: Text("Answer 2"),
-              onPressed: () {},
-            ),
-            RaisedButton(
-              child: Text("Answer 3"),
-              onPressed: () {},
-            ),
-            RaisedButton(
-              child: Text("Answer 4"),
-              onPressed: () {},
-            )
+            getAnswerVariant("Answer 1"),
+            getAnswerVariant("Answer 2"),
+            getAnswerVariant("Answer 3"),
+            getAnswerVariant("Answer 4")
           ],
         ),
       ),
+    );
+  }
+
+  Widget getAnswerVariant(String answer) {
+    return RaisedButton(
+      child: Text(answer),
+      onPressed: () => answerQuestion(answer),
     );
   }
 }
