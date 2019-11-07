@@ -11,7 +11,7 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  final List questions = [
+ static const List questions = const [
     {
       "questionText": "Question one?",
       "answers": ["One", "Two", "Three", "Gour"]
@@ -34,10 +34,10 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, Object> question = questions[_currentQuestion];
+    final Map<String, Object> question = questions[_currentQuestion];
 
-    String questionText = question["questionText"];
-    List<Widget> answers = _getListAnswers(question["answers"]);
+    final String questionText = question["questionText"];
+    final List<Widget> answers = _getListAnswers(question["answers"]);
 
     return Column(children: [
       Question(questionText: questionText),
@@ -46,8 +46,8 @@ class _QuizState extends State<Quiz> {
   }
 
   List<Widget> _getListAnswers(List<String> answers) {
-    List<Widget> answersWidgets = [];
-
+    final List<Widget> answersWidgets = [];
+    
     for (String answer in answers) {
       answersWidgets.add(
         Answer(
