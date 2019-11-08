@@ -23,15 +23,11 @@ class _QuizState extends State<Quiz> {
   void _answerQuestion(String answerText) {
     print('Answer is $answerText');
 
-    setState(() {
-      _logic.next();
-    });
+    setState(_logic.next);
   }
 
   void _reset() {
-    setState(() {
-      _logic.reset();
-    });
+    setState(_logic.reset);
   }
 
   @override
