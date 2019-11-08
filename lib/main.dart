@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './domain/quiz.dart' as quizlib;
+import './domain/expenses.dart' as expenseslib;
 
 import './view/App.dart';
 
@@ -25,8 +26,11 @@ var quizlibLogic = quizlib.QuizLogic([
   )
 ]);
 
+var expensesLogic = expenseslib.ExpensesLogic();
+
 class Domain {
   final quizlib.QuizLogic quiz = quizlibLogic;
+  final expenseslib.ExpensesLogic expenses = expensesLogic;
 }
 
 void main() => runApp(App(Domain()));

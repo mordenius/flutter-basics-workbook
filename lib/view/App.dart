@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './quiz/quiz.dart';
+import './expenses/expenses.dart';
 
 class App extends StatefulWidget {
   final dynamic _domain;
@@ -8,13 +9,13 @@ class App extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _AppState([Quiz(_domain.quiz)]);
+    return _AppState([Quiz(_domain.quiz), Expenses(_domain.expenses)]);
   }
 }
 
 class _AppState extends State<App> {
   final List<Widget> _sections;
-  int _currentSection = 0;
+  int _currentSection = 1;
 
   _AppState(this._sections);
 
