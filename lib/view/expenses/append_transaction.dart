@@ -10,7 +10,14 @@ class AppendTransaction extends StatelessWidget {
   final TextEditingController _amountController = TextEditingController();
 
   void _addTransaction() {
-    _appendTransaction(_titleController.text, double.parse(_amountController.text), DateTime.now());
+    String title = _titleController.text;
+    double amount = double.parse(_amountController.text);
+
+    if (title.isEmpty || amount <= 0) {
+      return;
+    }
+
+    _appendTransaction(title, amount, DateTime.now());
   }
 
   @override
@@ -23,10 +30,15 @@ class AppendTransaction extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             TextField(
-              decoration: InputDecoration(labelText: 'Title'), controller: _titleController,
+              decoration: InputDecoration(labelText: 'Title'),
+              controller: _titleController,
+              onSubmitted: (_) => _addTransaction(),
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'Amount'), controller: _amountController,
+              decoration: InputDecoration(labelText: 'Amount'),
+              controller: _amountController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              onSubmitted: (_) => _addTransaction(),
             ),
             FlatButton(
                 textColor: Colors.greenAccent,

@@ -27,7 +27,7 @@ class TransactionList extends StatelessWidget {
         child: Column(
           children: [
             Text(transaction.name),
-            Text(transaction.cost.toString()),
+            Text(transaction.cost.toStringAsFixed(2)),
             Text(DateFormat.yMMMd().format(transaction.date))
           ],
         ),
