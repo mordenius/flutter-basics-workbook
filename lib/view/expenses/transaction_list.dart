@@ -11,31 +11,27 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      child: ListView(
+      child: ListView.builder(
         scrollDirection: Axis.vertical,
-        children: _getTransactions(),
+        itemCount: _transactions.length,
+        itemBuilder: _getTransaction,
       ),
     );
   }
 
-  List<Widget> _getTransactions() {
-    final List<Widget> transactions = [];
-
-    for (Transaction transaction in _transactions) {
-      transactions.add(Container(
-        width: double.infinity,
-        child: Card(
-          child: Column(
-            children: [
-              Text(transaction.name),
-              Text(transaction.cost.toString()),
-              Text(DateFormat.yMMMd().format(transaction.date))
-            ],
-          ),
+  Widget _getTransaction(BuildContext ctx, int index) {
+    Transaction transaction = _transactions[index];
+    return Container(
+      width: double.infinity,
+      child: Card(
+        child: Column(
+          children: [
+            Text(transaction.name),
+            Text(transaction.cost.toString()),
+            Text(DateFormat.yMMMd().format(transaction.date))
+          ],
         ),
-      ));
-    }
-
-    return transactions;
+      ),
+    );
   }
 }
