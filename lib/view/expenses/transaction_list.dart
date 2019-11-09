@@ -4,8 +4,9 @@ import 'package:flutter_basics_workbook/domain/expenses.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> _transactions;
+  final Function _removeTransaction;
 
-  TransactionList(this._transactions);
+  TransactionList(this._transactions, this._removeTransaction);
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +39,43 @@ class TransactionList extends StatelessWidget {
 
   Widget _getTransaction(BuildContext ctx, int index) {
     Transaction transaction = _transactions[index];
-    return Container(
-      width: double.infinity,
-      child: Card(
-        child: Column(
-          children: [
-            Text(transaction.name, style: Theme.of(ctx).textTheme.title),
-            Text(transaction.cost.toStringAsFixed(2)),
-            Text(DateFormat.yMMMd().format(transaction.date))
-          ],
+    return Card(
+      elevation: 6,
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: ListTile(
+        leading: CircleAvatar(
+          radius: 30,
+          child: Padding(
+            padding: EdgeInsets.all(6),
+            child: FittedBox(
+              child: Text(
+                transaction.cost.toStringAsFixed(2),
+              ),
+            ),
+          ),
+        ),
+        title: Text(transaction.name, style: Theme.of(ctx).textTheme.title),
+        subtitle: Text(DateFormat.yMMMd().format(transaction.date)),
+        trailing: IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () {
+            this._removeTransaction(transaction);
+          },
         ),
       ),
     );
+
+    // Container(
+    //     width: double.infinity,
+    //     child: Card(
+    //       child: Column(
+    //         children: [
+    //           Text(transaction.name, style: Theme.of(ctx).textTheme.title),
+    //           Text(transaction.cost.toStringAsFixed(2)),
+    //           Text(DateFormat.yMMMd().format(transaction.date))
+    //         ],
+    //       ),
+    //     ),
+    //   ),
   }
 }

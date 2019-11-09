@@ -35,6 +35,11 @@ class _ExpensesState extends State<Expenses> {
     setState(() {});
   }
 
+   _removeTransaction(Transaction transaction) {
+    _logic.removeTransaction(transaction);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,7 +47,7 @@ class _ExpensesState extends State<Expenses> {
       child: Column(children: [
         AppendTransaction(_appendTransaction),
         Chart(_recentTransaction),
-        TransactionList(_logic.transactions),
+        TransactionList(_logic.transactions, _removeTransaction),
       ]),
     );
   }
