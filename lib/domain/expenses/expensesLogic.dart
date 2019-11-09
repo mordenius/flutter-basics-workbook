@@ -10,11 +10,7 @@ class Transaction {
 }
 
 class ExpensesLogic {
-  List<Transaction> transactions = [
-    Transaction(id: "t1", name: "New Shoes", cost: 69.99, date: DateTime.now()),
-    Transaction(id: "t2", name: "New Shoes", cost: 69.99, date: DateTime.now()),
-    Transaction(id: "t3", name: "New Shoes", cost: 69.99, date: DateTime.now()),
-  ];
+  List<Transaction> transactions = [];
 
   void appendTransaction(String name, double cost, DateTime date) {
     Transaction transaction =
