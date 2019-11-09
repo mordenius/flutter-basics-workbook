@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_basics_workbook/domain/expenses.dart' as expenses;
+import 'package:flutter_basics_workbook/domain/expenses.dart';
 
 import 'append_transaction.dart';
+import 'chart.dart';
 import 'transaction_list.dart';
 
 class Expenses extends StatefulWidget {
@@ -21,6 +23,13 @@ class _ExpensesState extends State<Expenses> {
 
   _ExpensesState(this._logic);
 
+  List<Transaction> get _recentTransaction {
+    return _logic.transactions.where((final Transaction transaction) {
+      return transaction.date
+          .isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
+
   _appendTransaction(String name, double amount, DateTime date) {
     _logic.appendTransaction(name, amount, date);
     setState(() {});
@@ -32,6 +41,7 @@ class _ExpensesState extends State<Expenses> {
       width: double.infinity,
       child: Column(children: [
         AppendTransaction(_appendTransaction),
+        Chart(_recentTransaction),
         TransactionList(_logic.transactions),
       ]),
     );
