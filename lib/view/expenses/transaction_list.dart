@@ -64,18 +64,5 @@ class TransactionList extends StatelessWidget {
         ),
       ),
     );
-
-    // Container(
-    //     width: double.infinity,
-    //     child: Card(
-    //       child: Column(
-    //         children: [
-    //           Text(transaction.name, style: Theme.of(ctx).textTheme.title),
-    //           Text(transaction.cost.toStringAsFixed(2)),
-    //           Text(DateFormat.yMMMd().format(transaction.date))
-    //         ],
-    //       ),
-    //     ),
-    //   ),
   }
 }

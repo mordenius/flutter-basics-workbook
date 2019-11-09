@@ -35,7 +35,7 @@ class _ExpensesState extends State<Expenses> {
     setState(() {});
   }
 
-   _removeTransaction(Transaction transaction) {
+  _removeTransaction(Transaction transaction) {
     _logic.removeTransaction(transaction);
     setState(() {});
   }
@@ -47,7 +47,9 @@ class _ExpensesState extends State<Expenses> {
       child: Column(children: [
         AppendTransaction(_appendTransaction),
         Chart(_recentTransaction),
-        TransactionList(_logic.transactions, _removeTransaction),
+        Expanded(
+          child: TransactionList(_logic.transactions, _removeTransaction),
+        ),
       ]),
     );
   }
