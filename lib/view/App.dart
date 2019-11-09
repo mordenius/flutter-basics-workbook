@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basics_workbook/view/expenses/append_transaction.dart';
 import './quiz/quiz.dart';
 import './expenses/expenses.dart';
 
@@ -27,10 +28,30 @@ class _AppState extends State<App> {
   //   });
   // }
 
+  _startAddNew(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (_) {
+          return GestureDetector(
+            child: AppendTransaction(null),
+            behavior: HitTestBehavior.opaque,
+            onTap: () {},
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark(),
+      theme: ThemeData(
+          fontFamily: "Quicksand",
+          appBarTheme: AppBarTheme(
+              textTheme: ThemeData.dark().textTheme.copyWith(
+                    title: TextStyle(
+                      fontFamily: "Quicksand",
+                      fontSize: 18,
+                    ),
+                  ))),
       home: Scaffold(
           appBar: AppBar(title: Text("Title ")),
           body: this._sections[this._currentSection]),

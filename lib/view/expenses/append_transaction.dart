@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_basics_workbook/domain/expenses.dart';
 
 class AppendTransaction extends StatelessWidget {
   final Function _appendTransaction;
@@ -41,7 +40,7 @@ class AppendTransaction extends StatelessWidget {
               onSubmitted: (_) => _addTransaction(),
             ),
             FlatButton(
-                textColor: Colors.greenAccent,
+                textColor: Theme.of(context).accentColor,
                 child: Text("Add Transaction"),
                 onPressed: _addTransaction),
           ],
