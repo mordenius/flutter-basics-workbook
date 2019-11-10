@@ -9,7 +9,7 @@ class _DeliMealsState extends State<DeliMeals> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: CategoriesScreen(),
+      child: TabsScreen(),
     );
   }
 }

@@ -10,6 +10,8 @@ part './view/deli_meals.dart';
 part './view/screens/categories.screen.dart';
 part './view/screens/category.screen.dart';
 part './view/screens/meal.screen.dart';
+part './view/screens/tabs.screen.dart';
+part './view/screens/favorites.screen.dart';
 part './view/widgets/category_item.dart';
 part './view/widgets/meal_item.dart';
 
