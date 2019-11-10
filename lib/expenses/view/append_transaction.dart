@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class AppendTransaction extends StatefulWidget {
+class AppendTransaction extends StatelessWidget {
   final Function _appendTransaction;
 
   AppendTransaction(this._appendTransaction);
 
-  @override
-  _AppendTransactionState createState() => _AppendTransactionState();
-}
-
-class _AppendTransactionState extends State<AppendTransaction> {
   final TextEditingController _titleController = TextEditingController();
-
   final TextEditingController _amountController = TextEditingController();
-
   DateTime _selectedDate;
 
   void _addTransaction(BuildContext context) {
@@ -25,7 +18,7 @@ class _AppendTransactionState extends State<AppendTransaction> {
       return;
     }
 
-    widget._appendTransaction(title, amount, _selectedDate);
+    _appendTransaction(title, amount, _selectedDate);
 
     // Navigator.of(context).pop();
   }
