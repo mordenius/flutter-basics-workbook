@@ -32,6 +32,7 @@ class _TabsScreenState extends State<TabsScreen> {
       length: 2,
       initialIndex: 0,
       child: Scaffold(
+          drawer: MainDrawer(),
           appBar: AppBar(
             backgroundColor: theme.primaryColor,
             title: Text(_pages[_selectedPageIndex].title),

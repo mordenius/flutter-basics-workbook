@@ -14,6 +14,7 @@ part './view/screens/tabs.screen.dart';
 part './view/screens/favorites.screen.dart';
 part './view/widgets/category_item.dart';
 part './view/widgets/meal_item.dart';
+part './view/widgets/main_drawer.dart';
 
 const DUMMY_CATEGORIES = const [
   Category(id: 'c1', title: 'Italian', color: Colors.purple),
