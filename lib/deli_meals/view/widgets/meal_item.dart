@@ -3,10 +3,18 @@ part of delimeals;
 class MealItem extends StatelessWidget {
   final Meal meal;
 
-  MealItem(this.meal);
+  final Function removeMeal;
+  MealItem(this.meal, this.removeMeal);
 
   void _selectMeal(BuildContext context) {
-    Navigator.of(context).pushNamed(MealScreen.routeName, arguments: meal);
+    Navigator.of(context).pushNamed(MealScreen.routeName, arguments: meal).then((result) {
+      if (result == null) {
+        return;
+      }
+      
+      print((result as Meal).title);
+      removeMeal(result);
+    });
   }
 
   @override

@@ -77,7 +77,13 @@ class MealScreen extends StatelessWidget {
                 itemCount: meal.steps.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    leading: CircleAvatar(child: Text('# ${(index + 1)}')),
+                    leading: CircleAvatar(
+                      child: Text(
+                        '# ${(index + 1)}',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      backgroundColor: theme.accentColor,
+                    ),
                     title: Text(meal.steps[index]),
                   );
                 },
@@ -85,6 +91,16 @@ class MealScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.star_border,
+          color: Colors.black,
+        ),
+        backgroundColor: theme.accentColor,
+        onPressed: () {
+          Navigator.of(context).pop(meal);
+        },
       ),
     );
   }

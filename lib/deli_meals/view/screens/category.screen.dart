@@ -1,11 +1,41 @@
 part of delimeals;
 
-class CategoryScreen extends StatelessWidget {
+class CategoryScreen extends StatefulWidget {
   static const routeName = '/deli-meals/category';
-  // final String categoryId;
-  // final String categoryTitle;
 
-  // CategoryScreen(this.categoryId, this.categoryTitle);
+  @override
+  _CategoryScreenState createState() => _CategoryScreenState();
+}
+
+class _CategoryScreenState extends State<CategoryScreen> {
+  String categoryTitle;
+  List<Meal> desplayedMeals;
+  bool _isInitDataLoad = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isInitDataLoad) return;
+    final routeArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, String>;
+    categoryTitle = routeArgs['title'];
+    final categoryId = routeArgs['id'];
+
+    desplayedMeals = _getMealsFromCategory(categoryId);
+    _isInitDataLoad = true;
+  }
+
+  void _removeMeal(Meal meal) {
+    print("remove meal");
+    setState(() {
+      desplayedMeals.remove(meal);
+    });
+  }
 
   List<Meal> _getMealsFromCategory(String categoryId) {
     return DUMMY_MEALS.where((Meal meal) {
@@ -15,13 +45,6 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routeArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
-    final categoryTitle = routeArgs['title'];
-    final categoryId = routeArgs['id'];
-
-    final categoryMeals = _getMealsFromCategory(categoryId);
-
     return Scaffold(
       appBar: AppBar(
         title: Text("$categoryTitle Recipes"),
@@ -29,8 +52,8 @@ class CategoryScreen extends StatelessWidget {
       ),
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index) =>
-            MealItem(categoryMeals[index]),
-        itemCount: categoryMeals.length,
+            MealItem(desplayedMeals[index], _removeMeal),
+        itemCount: desplayedMeals.length,
       ),
     );
   }
