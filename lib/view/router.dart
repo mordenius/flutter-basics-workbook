@@ -9,6 +9,7 @@ import './../deli_meals/index.dart';
 final routes = {
   CategoryScreen.routeName: (context) => CategoryScreen(),
   MealScreen.routeName: (context) => MealScreen(),
+  FilterScreen.routeName: (context) => FilterScreen(),
 };
 
 class Router extends StatefulWidget {
