@@ -39,6 +39,25 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   List<Meal> _getMealsFromCategory(String categoryId) {
     return DUMMY_MEALS.where((Meal meal) {
+      if (filterState.getFilter(Filters.isGlutenFree).isEnable &&
+          !meal.isGlutenFree) {
+        return false;
+      }
+
+      if (filterState.getFilter(Filters.isLactoseFree).isEnable &&
+          !meal.isLactoseFree) {
+        return false;
+      }
+
+      if (filterState.getFilter(Filters.isVegan).isEnable && !meal.isVegan) {
+        return false;
+      }
+
+      if (filterState.getFilter(Filters.isVegetarian).isEnable &&
+          !meal.isVegetarian) {
+        return false;
+      }
+
       return meal.categories.contains(categoryId);
     }).toList();
   }
