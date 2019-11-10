@@ -3,15 +3,41 @@ part of delimeals;
 class MealScreen extends StatelessWidget {
   static const routeName = '/deli-meals/meal';
 
+  Widget _buildSectionTitle(String title) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: Text(
+        title,
+        style: theme.textTheme.title,
+        textAlign: TextAlign.left,
+      ),
+    );
+  }
+
+  Widget _buildSectionList(Widget child) {
+    return Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        height: 150,
+        width: double.infinity,
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        child: child);
+  }
+
   @override
   Widget build(BuildContext context) {
     final Meal meal = ModalRoute.of(context).settings.arguments as Meal;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Recipe"),
         backgroundColor: theme.primaryColor,
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Image.network(
@@ -35,14 +61,31 @@ class MealScreen extends StatelessWidget {
                 textAlign: TextAlign.right,
               ),
             ),
+            _buildSectionTitle("Ingredients"),
+            _buildSectionList(
+              ListView.builder(
+                itemCount: meal.ingredients.length,
+                itemBuilder: (BuildContext context, int index) {
+                  // return Text(index.toString());
+                  return Text(meal.ingredients[index]);
+                },
+              ),
+            ),
+            _buildSectionTitle("Steps"),
+            _buildSectionList(
+              ListView.builder(
+                itemCount: meal.steps.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    leading: CircleAvatar(child: Text('# ${(index + 1)}')),
+                    title: Text(meal.steps[index]),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
-      // body: ListView.builder(
-      //   itemBuilder: (BuildContext context, int index) =>
-      //       MealItem(categoryMeals[index]),
-      //   itemCount: categoryMeals.length,
-      // ),
     );
   }
 }
