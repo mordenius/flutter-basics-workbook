@@ -31,7 +31,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
   }
 
   void _removeMeal(Meal meal) {
-    print("remove meal");
     setState(() {
       desplayedMeals.remove(meal);
     });
