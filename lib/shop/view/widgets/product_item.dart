@@ -1,17 +1,10 @@
 part of shop;
 
-class ProductItem extends StatefulWidget {
-  final Product _product;
-
-  ProductItem(this._product);
-
-  @override
-  _ProductItemState createState() => _ProductItemState();
-}
-
-class _ProductItemState extends State<ProductItem> {
+class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Product _product = Provider.of<Product>(context);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -19,30 +12,27 @@ class _ProductItemState extends State<ProductItem> {
           onTap: () {
             Navigator.of(context).pushNamed(
               ProductDetailsScreen.routeName,
-              arguments: widget._product,
+              arguments: _product,
             );
           },
           child: Image.network(
-            widget._product.imageUrl,
+            _product.imageUrl,
             fit: BoxFit.cover,
           ),
         ),
         footer: GridTileBar(
           backgroundColor: theme.primaryColor,
           leading: IconButton(
-            icon: Icon(widget._product.isFavorite
-                ? Icons.favorite
-                : Icons.favorite_border),
+            icon: Icon(
+                _product.isFavorite ? Icons.favorite : Icons.favorite_border),
             onPressed: () {
-              setState(() {
-                widget._product.isFavorite
-                    ? widget._product.removeFromFavorite()
-                    : widget._product.appendToFavorite();
-              });
+              _product.isFavorite
+                  ? _product.removeFromFavorite()
+                  : _product.appendToFavorite();
             },
           ),
           title: Text(
-            widget._product.title,
+            _product.title,
             textAlign: TextAlign.center,
           ),
           trailing: IconButton(

@@ -1,6 +1,6 @@
 part of shop;
 
-class Product {
+class Product with ChangeNotifier {
   final String id;
   final String title;
   final String description;
@@ -20,9 +20,11 @@ class Product {
 
   void appendToFavorite() {
     isFavorite = true;
+    notifyListeners();
   }
 
   void removeFromFavorite() {
     isFavorite = false;
+    notifyListeners();
   }
 }

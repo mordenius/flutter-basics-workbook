@@ -9,7 +9,10 @@ class ProductsGrid extends StatelessWidget {
       itemCount: products.length,
       itemBuilder: (BuildContext ctx, int index) {
         return GridTile(
-          child: ProductItem(products[index]),
+          child: ChangeNotifierProvider(
+            builder: (BuildContext context) => products[index],
+            child: ProductItem(),
+          ),
         );
       },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
