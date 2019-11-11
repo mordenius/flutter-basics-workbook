@@ -1,16 +1,24 @@
 part of shop;
 
 class ProductsGrid extends StatelessWidget {
+  final bool showFavoritesOnly;
+
+  ProductsGrid({this.showFavoritesOnly = false});
+
   @override
   Widget build(BuildContext context) {
-    List<Product> products = Provider.of<Products>(context).items;
+    Products products = Provider.of<Products>(context);
+
+    List<Product> items =
+        showFavoritesOnly ? products.favoriteItems : products.items;
+        
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
-      itemCount: products.length,
+      itemCount: items.length,
       itemBuilder: (BuildContext ctx, int index) {
         return GridTile(
           child: ChangeNotifierProvider.value(
-            value: products[index],
+            value: items[index],
             child: ProductItem(),
           ),
         );
