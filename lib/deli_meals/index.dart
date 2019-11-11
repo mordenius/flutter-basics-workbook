@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 part './model/category.model.dart';
 part './model/meal.model.dart';
 part './model/filter.model.dart';
+part './model/favorites.model.dart';
 
 part './view/theme.dart';
 part './view/deli_meals.dart';

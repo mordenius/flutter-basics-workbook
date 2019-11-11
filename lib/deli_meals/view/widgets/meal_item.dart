@@ -12,7 +12,6 @@ class MealItem extends StatelessWidget {
         return;
       }
       
-      print((result as Meal).title);
       removeMeal(result);
     });
   }

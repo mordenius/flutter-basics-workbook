@@ -50,15 +50,25 @@ class MealScreen extends StatelessWidget {
               width: double.infinity,
               color: theme.primaryColor,
               padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-              child: Text(
-                meal.title,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-                softWrap: true,
-                overflow: TextOverflow.fade,
-                textAlign: TextAlign.right,
+              child: Row(
+                children: [
+                  Text(
+                    meal.title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                    softWrap: true,
+                    overflow: TextOverflow.fade,
+                    textAlign: TextAlign.right,
+                  ),
+                  FlatButton(
+                    child: Icon(Icons.star_border),
+                    onPressed: () {
+                      favorites.add(meal);
+                    },
+                  )
+                ],
               ),
             ),
             _buildSectionTitle("Ingredients"),
@@ -94,7 +104,7 @@ class MealScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
-          Icons.star_border,
+          Icons.delete,
           color: Colors.black,
         ),
         backgroundColor: theme.accentColor,
