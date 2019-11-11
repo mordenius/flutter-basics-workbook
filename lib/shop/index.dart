@@ -3,8 +3,7 @@ library shop;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-part './models/product.dart';
-
+part './providers/product.dart';
 part './providers/products.provider.dart';
 
 part './view/theme.dart';
