@@ -9,8 +9,8 @@ class ProductsGrid extends StatelessWidget {
       itemCount: products.length,
       itemBuilder: (BuildContext ctx, int index) {
         return GridTile(
-          child: ChangeNotifierProvider(
-            builder: (BuildContext context) => products[index],
+          child: ChangeNotifierProvider.value(
+            value: products[index],
             child: ProductItem(),
           ),
         );
