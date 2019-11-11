@@ -4,12 +4,18 @@ import './quiz/quiz.dart';
 import './expenses/expenses.dart';
 import 'expenses/append_transaction.dart';
 
-import './../deli_meals/index.dart';
+import './../deli_meals/index.dart' as delimeals;
+
+import './../shop/index.dart' as shop;
 
 final routes = {
-  CategoryScreen.routeName: (context) => CategoryScreen(),
-  MealScreen.routeName: (context) => MealScreen(),
-  FilterScreen.routeName: (context) => FilterScreen(),
+  delimeals.CategoryScreen.routeName: (context) => delimeals.CategoryScreen(),
+  delimeals.MealScreen.routeName: (context) => delimeals.MealScreen(),
+  delimeals.FilterScreen.routeName: (context) => delimeals.FilterScreen(),
+  shop.Shop.routeName: (context) => shop.Shop(),
+  shop.CartScreen.routeName: (context) => shop.CartScreen(),
+  shop.ProductDetailsScreen.routeName: (context) => shop.ProductDetailsScreen(),
+  shop.FavoritesScreen.routeName: (context) => shop.FavoritesScreen(),
 };
 
 class Router extends StatefulWidget {
@@ -18,13 +24,17 @@ class Router extends StatefulWidget {
   Router(this._domain);
 
   @override
-  _RouterState createState() => _RouterState(
-      [Quiz(_domain.quiz), Expenses(_domain.expenses), DeliMeals()]);
+  _RouterState createState() => _RouterState([
+        Quiz(_domain.quiz),
+        Expenses(_domain.expenses),
+        delimeals.DeliMeals(),
+        shop.Shop()
+      ]);
 }
 
 class _RouterState extends State<Router> {
   final List<Widget> _sections;
-  int _currentSection = 2;
+  int _currentSection = 3;
 
   _RouterState(this._sections);
 
