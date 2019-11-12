@@ -7,22 +7,38 @@ class CartProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListTile(
-          leading: CircleAvatar(
-            child: Padding(
-              padding: EdgeInsets.all(5),
-              child: FittedBox(
-                child: Text('\$${_item.price.toStringAsFixed(2)}'),
+    Cart _cart = Provider.of<Cart>(context, listen: false);
+
+    return Dismissible(
+      onDismissed: (_) {
+        _cart.removeById(_item.id);
+      },
+      key: ValueKey(_item.id),
+      background: Container(
+        color: theme.errorColor,
+        child: Icon(Icons.delete, color: Colors.white, size: 40),
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.only(right: 20),
+        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+      ),
+      direction: DismissDirection.endToStart,
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: ListTile(
+            leading: CircleAvatar(
+              child: Padding(
+                padding: EdgeInsets.all(5),
+                child: FittedBox(
+                  child: Text('\$${_item.price.toStringAsFixed(2)}'),
+                ),
               ),
             ),
+            title: Text(_item.title),
+            subtitle: Text('Total: ${_item.price * _item.quantity}'),
+            trailing: Text('${_item.quantity}'),
           ),
-          title: Text(_item.title),
-          subtitle: Text('Total: ${_item.price * _item.quantity}'),
-          trailing: Text('${_item.quantity}'),
         ),
       ),
     );
