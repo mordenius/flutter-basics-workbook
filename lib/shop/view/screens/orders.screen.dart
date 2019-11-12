@@ -11,6 +11,7 @@ class OrdersScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Orders"),
       ),
+      drawer: AppDrawer(),
       body: ListView.builder(
         itemCount: orders.orders.length,
         itemBuilder: (ctx, int index) => OrderItemTile(orders.orders[index]),
