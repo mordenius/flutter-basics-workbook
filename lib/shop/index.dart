@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 part './providers/product.dart';
 part './providers/products.provider.dart';
 part './providers/cart.provider.dart';
+part './providers/orders.provider.dart';
 
 part './view/theme.dart';
 part './view/shop.dart';
