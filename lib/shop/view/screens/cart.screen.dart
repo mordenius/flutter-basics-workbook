@@ -5,7 +5,8 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   Cart cart = Provider.of<Cart>(context);
+    Cart cart = Provider.of<Cart>(context);
+    Orders orders = Provider.of<Orders>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(title: const Text("Cart")),
@@ -35,7 +36,11 @@ class CartScreen extends StatelessWidget {
                       "ORDER NOW",
                       style: TextStyle(color: theme.primaryColor),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      orders.addORder(
+                          cart.items.values.toList(), cart.totalAmount);
+                      cart.clear();
+                    },
                   ),
                 ],
               ),
@@ -45,11 +50,11 @@ class CartScreen extends StatelessWidget {
             height: 10,
           ),
           Expanded(
-            child:  ListView.builder(
-                itemCount: cart.items.length,
-                itemBuilder: (_, int index) =>
-                    CartProductItem(cart.items.values.toList()[index]),
-              ),
+            child: ListView.builder(
+              itemCount: cart.items.length,
+              itemBuilder: (_, int index) =>
+                  CartProductItem(cart.items.values.toList()[index]),
+            ),
           ),
         ],
       ),
