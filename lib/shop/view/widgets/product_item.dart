@@ -4,6 +4,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Product _product = Provider.of<Product>(context, listen: false);
+    Cart _cart = Provider.of<Cart>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -43,7 +44,8 @@ class ProductItem extends StatelessWidget {
           trailing: IconButton(
             icon: Icon(Icons.shopping_cart),
             onPressed: () {
-              Navigator.of(context).pushNamed(CartScreen.routeName);
+              // Navigator.of(context).pushNamed(CartScreen.routeName);
+              _cart.addItem(_product.id, _product.price, _product.title);
             },
           ),
         ),
