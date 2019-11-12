@@ -16,6 +16,7 @@ part './view/screens/product_details.screen.dart';
 part './view/widgets/products_grid.dart';
 part './view/widgets/product_item.dart';
 part './view/widgets/badge.dart';
+part './view/widgets/cart_product_item.dart';
 
 final List<Product> dummyProducts = [
   Product(

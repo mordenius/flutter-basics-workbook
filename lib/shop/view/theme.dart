@@ -12,5 +12,6 @@ ThemeData theme = ThemeData(
           title: TextStyle(
               fontSize: 24,
               fontFamily: 'RobotoCondensed',
-              fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
         ));
