@@ -5,12 +5,6 @@ class Shop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: Products()),
-        ChangeNotifierProvider.value(value: Cart()),
-      ],
-      child: ProductOverviewScreen(),
-    );
+    return ProductOverviewScreen();
   }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import './../shop/index.dart' as shop;
 
 import './theme.dart';
 import './router.dart';
@@ -10,7 +13,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: shop.Products()),
+        ChangeNotifierProvider.value(value: shop.Cart()),
+      ],
+      child: MaterialApp(
       theme: theme,
       home: Router(this._domain),
       routes: routes,
@@ -25,6 +33,7 @@ class App extends StatelessWidget {
           ),
         );
       },
+      ),
     );
   }
 }
