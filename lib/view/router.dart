@@ -16,6 +16,7 @@ final routes = {
   shop.CartScreen.routeName: (context) => shop.CartScreen(),
   shop.ProductDetailsScreen.routeName: (context) => shop.ProductDetailsScreen(),
   shop.FavoritesScreen.routeName: (context) => shop.FavoritesScreen(),
+  shop.OrdersScreen.routeName: (context) => shop.OrdersScreen(),
 };
 
 class Router extends StatefulWidget {

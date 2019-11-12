@@ -1,6 +1,7 @@
 library shop;
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 part './providers/product.dart';
@@ -14,10 +15,12 @@ part './view/screens/product_overview.screen.dart';
 part './view/screens/cart.screen.dart';
 part './view/screens/favorites.screen.dart';
 part './view/screens/product_details.screen.dart';
+part './view/screens/orders.screen.dart';
 part './view/widgets/products_grid.dart';
 part './view/widgets/product_item.dart';
 part './view/widgets/badge.dart';
 part './view/widgets/cart_product_item.dart';
+part './view/widgets/order_item_tile.dart';
 
 final List<Product> dummyProducts = [
   Product(
