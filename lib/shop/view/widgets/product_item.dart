@@ -47,6 +47,7 @@ class ProductItem extends StatelessWidget {
             onPressed: () {
               // Navigator.of(context).pushNamed(CartScreen.routeName);
               _cart.addItem(_product.id, _product.price, _product.title);
+              // Scaffold.of(context).hideCurrentSnackBar();
               Scaffold.of(context).showSnackBar(
                 SnackBar(
                   content: Text("Added item to cart."),
