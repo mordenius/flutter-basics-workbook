@@ -18,12 +18,14 @@ part './view/screens/cart.screen.dart';
 part './view/screens/favorites.screen.dart';
 part './view/screens/product_details.screen.dart';
 part './view/screens/orders.screen.dart';
+part './view/screens/user_products.screen.dart';
 part './view/widgets/products_grid.dart';
 part './view/widgets/product_item.dart';
 part './view/widgets/badge.dart';
 part './view/widgets/cart_product_item.dart';
 part './view/widgets/order_item_tile.dart';
 part './view/widgets/app_drawer.dart';
+part './view/widgets/user_product.dart';
 
 final List<Product> dummyProducts = [
   Product(
