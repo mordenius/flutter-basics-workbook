@@ -14,10 +14,40 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _imageUrlController = TextEditingController();
   final _form = GlobalKey<FormState>();
 
+  var _isInit = true;
+
+  var _initValues = {
+    'id': null,
+    'title': '',
+    'description': '',
+    'price': '',
+    'imageUrl': ''
+  };
+
   @override
   void initState() {
     _imageFocusNode.addListener(_updateImageUrl);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      Product _product = ModalRoute.of(context).settings.arguments;
+      if (_product != null) {
+        _initValues = {
+          'title': _product.title,
+          'description': _product.description,
+          'price': _product.price.toString(),
+          'imageUrl': '',
+          'id': _product.id
+        };
+
+        _imageUrlController.text = _product.imageUrl;
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
   }
 
   @override
@@ -60,6 +90,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
       return;
     }
 
+    _initValues['imageUrl'] = _imageUrlController.text;
+
     setState(() {});
   }
 
@@ -71,6 +103,25 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
 
     _form.currentState.save();
+
+    Products products = Provider.of<Products>(context);
+
+    Product product = Product(
+      id: DateTime.now().toString(),
+      title: _initValues['title'],
+      description: _initValues['description'],
+      price: double.parse(_initValues['price']),
+      imageUrl: _initValues['imageUrl'],
+      isFavorite: false,
+    );
+
+    if (_initValues['id'] != null) {
+      products.updateProductById(_initValues['id'], product);
+    } else {
+      products.addProduct(product);
+    }
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -89,9 +140,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
           child: ListView(
             children: <Widget>[
               TextFormField(
+                initialValue: _initValues['title'],
                 decoration: InputDecoration(labelText: 'Title'),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (String value) {
+                  _initValues['title'] = value;
                   FocusScope.of(context).requestFocus(_priceFocusNode);
                 },
                 validator: (final String value) {
@@ -103,11 +156,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 },
               ),
               TextFormField(
+                initialValue: _initValues['price'],
                 decoration: InputDecoration(labelText: 'Price'),
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.number,
                 focusNode: _priceFocusNode,
                 onFieldSubmitted: (String value) {
+                  _initValues['price'] = value;
                   FocusScope.of(context).requestFocus(_descriptionFocusNode);
                 },
                 validator: (final String value) {
@@ -127,15 +182,21 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 },
               ),
               TextFormField(
+                initialValue: _initValues['description'],
                 decoration: InputDecoration(labelText: 'Description'),
                 maxLines: 3,
                 keyboardType: TextInputType.multiline,
+                focusNode: _descriptionFocusNode,
+                onFieldSubmitted: (String value) {
+                  _initValues['description'] = value;
+                  FocusScope.of(context).requestFocus(_imageFocusNode);
+                },
                 validator: (final String value) {
                   if (value.isEmpty) {
                     return 'Please enter a description.';
                   }
 
-                  if (value.length > 10) {
+                  if (value.length < 10) {
                     return 'Should be at least 10 characters long.';
                   }
 
