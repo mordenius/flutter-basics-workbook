@@ -15,6 +15,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _form = GlobalKey<FormState>();
 
   var _isInit = true;
+  var _isLoading = false;
 
   var _initValues = {
     'id': null,
@@ -117,11 +118,21 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
     if (_initValues['id'] != null) {
       products.updateProductById(_initValues['id'], product);
+      Navigator.of(context).pop();
     } else {
-      products.addProduct(product);
+      setState(() {
+        _isLoading = true;
+      });
+      products.addProduct(product).then((_) {
+        Navigator.of(context).pop();
+      }).catchError((error) {
+        print(error.toString());
+      }).whenComplete(() {
+        setState(() {
+          _isLoading = false;
+        });
+      });
     }
-
-    Navigator.of(context).pop();
   }
 
   @override
@@ -133,120 +144,126 @@ class _EditProductScreenState extends State<EditProductScreen> {
           IconButton(icon: Icon(Icons.save), onPressed: _saveForm),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _form,
-          child: ListView(
-            children: <Widget>[
-              TextFormField(
-                initialValue: _initValues['title'],
-                decoration: InputDecoration(labelText: 'Title'),
-                textInputAction: TextInputAction.next,
-                onFieldSubmitted: (String value) {
-                  _initValues['title'] = value;
-                  FocusScope.of(context).requestFocus(_priceFocusNode);
-                },
-                validator: (final String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter a title.';
-                  }
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _form,
+                child: ListView(
+                  children: <Widget>[
+                    TextFormField(
+                      initialValue: _initValues['title'],
+                      decoration: InputDecoration(labelText: 'Title'),
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (String value) {
+                        _initValues['title'] = value;
+                        FocusScope.of(context).requestFocus(_priceFocusNode);
+                      },
+                      validator: (final String value) {
+                        if (value.isEmpty) {
+                          return 'Please enter a title.';
+                        }
 
-                  return null;
-                },
-              ),
-              TextFormField(
-                initialValue: _initValues['price'],
-                decoration: InputDecoration(labelText: 'Price'),
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                focusNode: _priceFocusNode,
-                onFieldSubmitted: (String value) {
-                  _initValues['price'] = value;
-                  FocusScope.of(context).requestFocus(_descriptionFocusNode);
-                },
-                validator: (final String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter a price.';
-                  }
-
-                  if (double.tryParse(value) == null) {
-                    return 'Please enter a valid number.';
-                  }
-
-                  if (double.parse(value) <= 0) {
-                    return 'Please enter a number greater than zero.';
-                  }
-
-                  return null;
-                },
-              ),
-              TextFormField(
-                initialValue: _initValues['description'],
-                decoration: InputDecoration(labelText: 'Description'),
-                maxLines: 3,
-                keyboardType: TextInputType.multiline,
-                focusNode: _descriptionFocusNode,
-                onFieldSubmitted: (String value) {
-                  _initValues['description'] = value;
-                  FocusScope.of(context).requestFocus(_imageFocusNode);
-                },
-                validator: (final String value) {
-                  if (value.isEmpty) {
-                    return 'Please enter a description.';
-                  }
-
-                  if (value.length < 10) {
-                    return 'Should be at least 10 characters long.';
-                  }
-
-                  return null;
-                },
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    height: 100,
-                    width: 100,
-                    margin: EdgeInsets.only(
-                      top: 8,
-                      right: 10,
+                        return null;
+                      },
                     ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.grey,
-                      ),
+                    TextFormField(
+                      initialValue: _initValues['price'],
+                      decoration: InputDecoration(labelText: 'Price'),
+                      textInputAction: TextInputAction.next,
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
+                      focusNode: _priceFocusNode,
+                      onFieldSubmitted: (String value) {
+                        _initValues['price'] = value;
+                        FocusScope.of(context)
+                            .requestFocus(_descriptionFocusNode);
+                      },
+                      validator: (final String value) {
+                        if (value.isEmpty) {
+                          return 'Please enter a price.';
+                        }
+
+                        if (double.tryParse(value) == null) {
+                          return 'Please enter a valid number.';
+                        }
+
+                        if (double.parse(value) <= 0) {
+                          return 'Please enter a number greater than zero.';
+                        }
+
+                        return null;
+                      },
                     ),
-                    child: _imageUrlController.text.isEmpty
-                        ? Text('Enter a URL')
-                        : FittedBox(
-                            child: Image.network(
-                              _imageUrlController.text,
-                              fit: BoxFit.cover,
+                    TextFormField(
+                      initialValue: _initValues['description'],
+                      decoration: InputDecoration(labelText: 'Description'),
+                      maxLines: 3,
+                      keyboardType: TextInputType.multiline,
+                      focusNode: _descriptionFocusNode,
+                      onFieldSubmitted: (String value) {
+                        _initValues['description'] = value;
+                        FocusScope.of(context).requestFocus(_imageFocusNode);
+                      },
+                      validator: (final String value) {
+                        if (value.isEmpty) {
+                          return 'Please enter a description.';
+                        }
+
+                        if (value.length < 10) {
+                          return 'Should be at least 10 characters long.';
+                        }
+
+                        return null;
+                      },
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          height: 100,
+                          width: 100,
+                          margin: EdgeInsets.only(
+                            top: 8,
+                            right: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 1,
+                              color: Colors.grey,
                             ),
                           ),
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      decoration: InputDecoration(labelText: 'Image URL'),
-                      keyboardType: TextInputType.url,
-                      textInputAction: TextInputAction.done,
-                      controller: _imageUrlController,
-                      focusNode: _imageFocusNode,
-                      onFieldSubmitted: (_) {
-                        _saveForm();
-                      },
-                      validator: _imageUrlValidate,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+                          child: _imageUrlController.text.isEmpty
+                              ? Text('Enter a URL')
+                              : FittedBox(
+                                  child: Image.network(
+                                    _imageUrlController.text,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            decoration: InputDecoration(labelText: 'Image URL'),
+                            keyboardType: TextInputType.url,
+                            textInputAction: TextInputAction.done,
+                            controller: _imageUrlController,
+                            focusNode: _imageFocusNode,
+                            onFieldSubmitted: (_) {
+                              _saveForm();
+                            },
+                            validator: _imageUrlValidate,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

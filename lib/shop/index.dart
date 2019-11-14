@@ -1,10 +1,12 @@
 library shop;
 
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart';
 
 part './providers/product.dart';
 part './providers/products.provider.dart';
