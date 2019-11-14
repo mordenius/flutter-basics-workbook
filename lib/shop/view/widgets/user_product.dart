@@ -19,13 +19,17 @@ class UserProduct extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.edit),
               onPressed: () {
-                Navigator.of(context).pushNamed(EditProductScreen.routeName);
+                Navigator.of(context).pushNamed(EditProductScreen.routeName,
+                    arguments: _product);
               },
               color: theme.primaryColor,
             ),
             IconButton(
               icon: Icon(Icons.delete),
-              onPressed: () {},
+              onPressed: () {
+                Provider.of<Products>(context, listen: false)
+                    .removeProduct(_product);
+              },
               color: theme.errorColor,
             ),
           ],
