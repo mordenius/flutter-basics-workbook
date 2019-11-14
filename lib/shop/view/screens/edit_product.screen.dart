@@ -44,6 +44,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
 
     return 'Please choose only png, jpg or jpeg.';
+
+    // Regex example
+    // var urlPattern = r"(https?|ftp)://([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?";
+    // var result = new RegExp(urlPattern, caseSensitive: false).firstMatch(value);
   }
 
   bool _imageInputNotFocusedOrHasInvalidValue() {
