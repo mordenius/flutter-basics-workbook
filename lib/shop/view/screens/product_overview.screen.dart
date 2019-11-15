@@ -9,6 +9,37 @@ class ProductOverviewScreen extends StatefulWidget {
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   var _showFavoritesOnly = false;
+  var _isInit = false;
+
+  @override
+  void didChangeDependencies() {
+    if (!_isInit) {
+      Provider.of<Products>(context).fetchAndSetProducts().catchError((error) {
+        print(error.toString());
+        return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("An error occurred"),
+            content: Text("Something went wrong."),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          ),
+        );
+      }).then((_) {
+        setState(() {
+          _isInit = true;
+        });
+      });
+    }
+
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +84,9 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         ],
       ),
       drawer: AppDrawer(),
-      body: ProductsGrid(showFavoritesOnly: _showFavoritesOnly),
+      body: !_isInit
+          ? Center(child: CircularProgressIndicator())
+          : ProductsGrid(showFavoritesOnly: _showFavoritesOnly),
     );
   }
 }

@@ -1,6 +1,9 @@
 part of shop;
 
 class Products with ChangeNotifier {
+  static const url =
+      "https://flutter-basics-workbook.firebaseio.com/products.json";
+
   List<Product> _items = dummyProducts;
 
   List<Product> get favoriteItems {
@@ -11,9 +14,30 @@ class Products with ChangeNotifier {
     return _items.toList();
   }
 
-  Future<void> addProduct(Product product) async {
-    const url = "https://flutter-basics-workbook.firebaseio.com/products.json";
+  Future<void> fetchAndSetProducts() async {
+    try {
+      final Response response = await get(url);
+      final Map<String, dynamic> data = json.decode(response.body);
 
+      data.forEach((String id, dynamic item) {
+        _items.add(Product(
+          id: id,
+          title: item.title,
+          description: item.description,
+          price: item.price,
+          imageUrl: item.imageUrl,
+          isFavorite: item.isFavorite,
+        ));
+      });
+
+    } catch (error) {
+      throw error;
+    }
+
+    return Future.value();
+  }
+
+  Future<void> addProduct(Product product) async {
     final String encodedProduct = json.encode({
       'title': product.title,
       'description': product.description,
