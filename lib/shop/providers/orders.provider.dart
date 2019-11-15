@@ -27,6 +27,10 @@ class Orders with ChangeNotifier {
     final Response response = await get(url);
     final Map<String, dynamic> data = json.decode(response.body);
 
+    if (data == null) {
+      return;
+    }
+
     data.forEach((String id, dynamic item) {
       _orders.add(
         OrderItem(

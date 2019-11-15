@@ -15,25 +15,23 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    try {
-      final Response response = await get(url);
-      final Map<String, dynamic> data = json.decode(response.body);
+    final Response response = await get(url);
+    final Map<String, dynamic> data = json.decode(response.body);
 
-      data.forEach((String id, dynamic item) {
-        _items.add(Product(
-          id: id,
-          title: item.title,
-          description: item.description,
-          price: item.price,
-          imageUrl: item.imageUrl,
-          isFavorite: item.isFavorite,
-        ));
-      });
-    } catch (error) {
-      throw error;
+    if (data == null) {
+      return;
     }
 
-    return Future.value();
+    data.forEach((String id, dynamic item) {
+      _items.add(Product(
+        id: id,
+        title: item.title,
+        description: item.description,
+        price: item.price,
+        imageUrl: item.imageUrl,
+        isFavorite: item.isFavorite,
+      ));
+    });
   }
 
   Future<void> addProduct(Product product) async {
