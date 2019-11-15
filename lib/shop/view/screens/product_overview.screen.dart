@@ -15,7 +15,6 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   void didChangeDependencies() {
     if (!_isInit) {
       Provider.of<Products>(context).fetchAndSetProducts().catchError((error) {
-        print(error.toString());
         return showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
