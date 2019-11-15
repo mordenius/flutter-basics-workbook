@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart';
 
+import 'models/http_exception.dart';
+
 part './providers/product.dart';
 part './providers/products.provider.dart';
 part './providers/cart.provider.dart';

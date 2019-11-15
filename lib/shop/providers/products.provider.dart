@@ -109,22 +109,21 @@ class Products with ChangeNotifier {
     return Future.value();
   }
 
-  void removeProduct(Product product) {
+  Future<void> removeProduct(Product product) async {
     final existingProductId =
         _items.indexWhere((_product) => _product.id == product.id);
     _items.remove(product);
+    notifyListeners();
 
     final url =
         "https://flutter-basics-workbook.firebaseio.com/products/${product.id}.json";
 
-    delete(url).then((Response response) {
-      if (response.statusCode >= 400) {
-        throw 'Product not deleted';
-      }
-    }).catchError((onError) {
-      _items.insert(existingProductId, product);
-    });
+    Response response = await delete(url);
 
-    notifyListeners();
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductId, product);
+      notifyListeners();
+      throw HttpException('Product not deleted');
+    }
   }
 }
