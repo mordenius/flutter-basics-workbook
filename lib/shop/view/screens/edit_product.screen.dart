@@ -116,37 +116,41 @@ class _EditProductScreenState extends State<EditProductScreen> {
       isFavorite: false,
     );
 
+    setState(() {
+      _isLoading = true;
+    });
+
+    Future future;
+
     if (_initValues['id'] != null) {
-      products.updateProductById(_initValues['id'], product);
-      Navigator.of(context).pop();
+      future = products.updateProductById(_initValues['id'], product);
     } else {
-      setState(() {
-        _isLoading = true;
-      });
-      products.addProduct(product).catchError((error) {
-        print(error.toString());
-        return showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text("An error occurred"),
-            content: Text("Something went wrong."),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Ok"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          ),
-        );
-      }).whenComplete(() {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
-      });
+      future = products.addProduct(product);
     }
+
+    future.catchError((error) {
+      print(error.toString());
+      return showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("An error occurred"),
+          content: Text("Something went wrong."),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Ok"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        ),
+      );
+    }).whenComplete(() {
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).pop();
+    });
   }
 
   @override

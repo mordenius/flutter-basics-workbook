@@ -29,7 +29,6 @@ class Products with ChangeNotifier {
           isFavorite: item.isFavorite,
         ));
       });
-
     } catch (error) {
       throw error;
     }
@@ -76,17 +75,38 @@ class Products with ChangeNotifier {
     return Future.value();
   }
 
-  void updateProductById(String id, Product newProduct) {
+  Future<void> updateProductById(String id, Product newProduct) async {
     final int index = _items.indexWhere((Product product) => product.id == id);
 
     if (index < 0) {
-      addProduct(newProduct);
-      return;
+      return addProduct(newProduct);
+    }
+
+    final url =
+        "https://flutter-basics-workbook.firebaseio.com/products/${id}.json";
+
+    final String encodedProduct = json.encode({
+      'title': newProduct.title,
+      'description': newProduct.description,
+      'price': newProduct.price,
+      'imageUrl': newProduct.imageUrl,
+      'isFavorite': newProduct.isFavorite
+    });
+
+    try {
+      await patch(
+        url,
+        body: encodedProduct,
+      );
+    } catch (error) {
+      print(error.toString());
+      throw error;
     }
 
     _items[index] = newProduct;
 
     notifyListeners();
+    return Future.value();
   }
 
   void removeProduct(Product product) {
