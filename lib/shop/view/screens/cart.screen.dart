@@ -31,17 +31,7 @@ class CartScreen extends StatelessWidget {
                       backgroundColor: theme.primaryColor,
                     ),
                   ),
-                  FlatButton(
-                    child: Text(
-                      "ORDER NOW",
-                      style: TextStyle(color: theme.primaryColor),
-                    ),
-                    onPressed: () {
-                      orders.addORder(
-                          cart.items.values.toList(), cart.totalAmount);
-                      cart.clear();
-                    },
-                  ),
+                  new _OrderButton(orders: orders, cart: cart),
                 ],
               ),
             ),
@@ -58,6 +48,58 @@ class CartScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _OrderButton extends StatefulWidget {
+  const _OrderButton({
+    Key key,
+    @required this.orders,
+    @required this.cart,
+  }) : super(key: key);
+
+  final Orders orders;
+  final Cart cart;
+
+  @override
+  __OrderButtonState createState() => __OrderButtonState();
+}
+
+class __OrderButtonState extends State<_OrderButton> {
+  var _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      child: _isLoading
+          ? CircularProgressIndicator()
+          : Text(
+              "ORDER NOW",
+              style: TextStyle(
+                  color: widget.cart.totalAmount <= 0 || _isLoading
+                      ? Colors.grey
+                      : theme.primaryColor),
+            ),
+      onPressed: widget.cart.totalAmount <= 0 || _isLoading
+          ? null
+          : () {
+              setState(() {
+                _isLoading = true;
+              });
+              widget.orders
+                  .addORder(widget.cart.items.values.toList(),
+                      widget.cart.totalAmount)
+                  .then((_) {
+                _isLoading = false;
+                widget.cart.clear();
+              }).catchError((error) {
+                print(error);
+                setState(() {
+                  _isLoading = true;
+                });
+              });
+            },
     );
   }
 }
