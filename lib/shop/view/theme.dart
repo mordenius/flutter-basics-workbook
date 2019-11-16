@@ -1,6 +1,9 @@
 part of shop;
 
 ThemeData theme = ThemeData(
+    pageTransitionsTheme: PageTransitionsTheme(builders: {
+      TargetPlatform.android: CustomPageTransitionBuilder(),
+    }),
     primarySwatch: Colors.purple,
     accentColor: Colors.deepOrange,
     canvasColor: Color.fromARGB(1, 255, 254, 229),
