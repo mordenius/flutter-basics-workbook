@@ -12,6 +12,7 @@ import 'models/http_exception.dart';
 import 'providers/auth.provider.dart';
 import 'view/screens/auth.screen.dart';
 import 'view/screens/splash-screen.dart';
+import 'helpers/custom_route.dart';
 
 part './providers/product.dart';
 part './providers/products.provider.dart';
