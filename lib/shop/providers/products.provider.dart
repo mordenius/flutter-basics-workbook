@@ -30,10 +30,10 @@ class Products with ChangeNotifier {
     final favoritesUrl =
         "https://flutter-basics-workbook.firebaseio.com/userFavorites/${_userId}.json" +
             '?auth=' +
-            _authToken;
+            _authToken + '&orderBy="creatorId"&equalTo=$_userId';
 
     final Response responseFavorites = await get(favoritesUrl);
-    final Map<String, dynamic> dataFavorites = json.decode(response.body);
+    final Map<String, dynamic> dataFavorites = json.decode(responseFavorites.body);
 
     data.forEach((String id, dynamic item) {
       _items.add(Product(
@@ -53,7 +53,7 @@ class Products with ChangeNotifier {
       'description': product.description,
       'price': product.price,
       'imageUrl': product.imageUrl,
-      'isFavorite': product.isFavorite
+      'creatorId': _userId
     });
 
     String id;
@@ -78,7 +78,7 @@ class Products with ChangeNotifier {
         description: product.description,
         price: product.price,
         imageUrl: product.imageUrl,
-        isFavorite: product.isFavorite,
+        isFavorite: false,
       ),
     );
     notifyListeners();
