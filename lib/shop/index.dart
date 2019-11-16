@@ -11,6 +11,7 @@ import 'package:http/http.dart';
 import 'models/http_exception.dart';
 import 'providers/auth.provider.dart';
 import 'view/screens/auth.screen.dart';
+import 'view/screens/splash-screen.dart';
 
 part './providers/product.dart';
 part './providers/products.provider.dart';

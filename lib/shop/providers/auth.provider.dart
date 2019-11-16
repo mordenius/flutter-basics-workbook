@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './../models/http_exception.dart';
 
@@ -34,7 +35,7 @@ class Auth with ChangeNotifier {
     return _userId;
   }
 
-  void logout() {
+  Future<void> logout() async {
     _token = null;
     _expiryDate = null;
     _userId = null;
@@ -44,7 +45,37 @@ class Auth with ChangeNotifier {
       _authTimer = null;
     }
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    
     notifyListeners();
+  }
+
+  Future<bool> tryAutoLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('token') ||
+        !prefs.containsKey('userId') ||
+        !prefs.containsKey('expiryDate')) {
+      return false;
+    }
+
+    try {
+      _expiryDate = DateTime.parse(prefs.getString('expiryDate'));
+      if (_expiryDate.isBefore(DateTime.now())) {
+        throw 'Token expired';
+      }
+
+      _token = prefs.getString('token');
+      _userId = prefs.getString('userId');
+
+      _autoLogout();
+      notifyListeners();
+
+      return true;
+    } catch (_err) {
+      _expiryDate = null;
+      return false;
+    }
   }
 
   Future<void> signup(String email, String pswd) {
@@ -76,6 +107,12 @@ class Auth with ChangeNotifier {
           .add(Duration(seconds: int.parse(decoded['expiresIn'])));
 
       _autoLogout();
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('token', _token);
+      prefs.setString('userId', _userId);
+      prefs.setString('expiryDate', _expiryDate.toIso8601String());
+
       notifyListeners();
     } catch (error) {
       print(error);
