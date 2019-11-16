@@ -2,17 +2,14 @@ part of shop;
 
 class Products with ChangeNotifier {
   String _authToken;
+  String _userId;
 
   static const url =
       "https://flutter-basics-workbook.firebaseio.com/products.json";
 
   List<Product> _items;
 
-  Products(String authtoken, List<Product> items) {
-    _authToken = authtoken;
-    _items = items;
-    ChangeNotifier();
-  }
+  Products(this._authToken, this._userId, this._items);
 
   List<Product> get favoriteItems {
     return _items.where((Product product) => product.isFavorite).toList();
@@ -30,6 +27,14 @@ class Products with ChangeNotifier {
       return;
     }
 
+    final favoritesUrl =
+        "https://flutter-basics-workbook.firebaseio.com/userFavorites/${_userId}.json" +
+            '?auth=' +
+            _authToken;
+
+    final Response responseFavorites = await get(favoritesUrl);
+    final Map<String, dynamic> dataFavorites = json.decode(response.body);
+
     data.forEach((String id, dynamic item) {
       _items.add(Product(
         id: id,
@@ -37,7 +42,7 @@ class Products with ChangeNotifier {
         description: item.description,
         price: item.price,
         imageUrl: item.imageUrl,
-        isFavorite: item.isFavorite,
+        isFavorite: dataFavorites == null ? false : dataFavorites[id].isFavorite ?? false,
       ));
     });
   }
@@ -97,8 +102,7 @@ class Products with ChangeNotifier {
       'title': newProduct.title,
       'description': newProduct.description,
       'price': newProduct.price,
-      'imageUrl': newProduct.imageUrl,
-      'isFavorite': newProduct.isFavorite
+      'imageUrl': newProduct.imageUrl
     });
 
     try {
