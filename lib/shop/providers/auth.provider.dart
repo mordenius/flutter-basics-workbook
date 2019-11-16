@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
+import './../models/http_exception.dart';
+
 const _API_URL = 'https://identitytoolkit.googleapis.com/v1/';
 const _API_KEY = 'AIzaSyBugSGV8u89bNmm99l_lsZL2dt0Kd5QNK8';
 
@@ -28,8 +30,13 @@ class Auth with ChangeNotifier {
     try {
       final encoded = json.encode(data);
       final http.Response response = await http.post(url, body: encoded);
-      final decode = json.decode(response.body);
-      print(decode);
-    } catch (err) {}
+      final decoded = json.decode(response.body);
+
+      if (decoded['error'] != null) {
+        throw HttpException(decoded['error']['message']);
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 }
