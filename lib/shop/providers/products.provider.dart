@@ -19,7 +19,7 @@ class Products with ChangeNotifier {
     return _items.toList();
   }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
     final Response response = await get(url + '?auth=' + _authToken);
     final Map<String, dynamic> data = json.decode(response.body);
 
@@ -30,7 +30,7 @@ class Products with ChangeNotifier {
     final favoritesUrl =
         "https://flutter-basics-workbook.firebaseio.com/userFavorites/${_userId}.json" +
             '?auth=' +
-            _authToken + '&orderBy="creatorId"&equalTo=$_userId';
+            _authToken + (filterByUser ? '&orderBy="creatorId"&equalTo=$_userId' : '');
 
     final Response responseFavorites = await get(favoritesUrl);
     final Map<String, dynamic> dataFavorites = json.decode(responseFavorites.body);
