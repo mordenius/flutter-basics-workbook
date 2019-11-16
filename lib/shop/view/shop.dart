@@ -5,7 +5,7 @@ class Shop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AuthScreen();
-    // return ProductOverviewScreen();
+    Auth auth = Provider.of<Auth>(context);
+    return auth.isAuth ? ProductOverviewScreen() : AuthScreen();
   }
 }
