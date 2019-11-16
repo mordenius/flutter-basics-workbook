@@ -18,26 +18,26 @@ class Product with ChangeNotifier {
     this.isFavorite = false,
   });
 
-  Future<void> appendToFavorite() async {
-    return _changeFavorite(true);
+  Future<void> appendToFavorite(String authToken) async {
+    return _changeFavorite(true, authToken);
   }
 
-  Future<void> removeFromFavorite() async {
-    return _changeFavorite(false);
+  Future<void> removeFromFavorite(String authToken) async {
+    return _changeFavorite(false, authToken);
   }
 
-  Future<void> _changeFavorite(bool newState) async {
+  Future<void> _changeFavorite(bool newState, String authToken) async {
     try {
-      await _patch(newState);
+      await _patch(newState, authToken);
       isFavorite = newState;
     } catch (error) {} finally {
       notifyListeners();
     }
   }
 
-  Future<void> _patch(bool newState) async {
+  Future<void> _patch(bool newState, String authToken) async {
     final url =
-        "https://flutter-basics-workbook.firebaseio.com/products/${id}.json";
+        "https://flutter-basics-workbook.firebaseio.com/products/${id}.json?auth=${authToken}";
 
     final String encodedProduct = json.encode({'isFavorite': newState});
 

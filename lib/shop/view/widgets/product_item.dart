@@ -5,6 +5,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Product _product = Provider.of<Product>(context, listen: false);
     Cart _cart = Provider.of<Cart>(context, listen: false);
+    Auth _auth = Provider.of<Auth>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -32,8 +33,8 @@ class ProductItem extends StatelessWidget {
                     : Icons.favorite_border),
                 onPressed: () {
                   product.isFavorite
-                      ? product.removeFromFavorite()
-                      : product.appendToFavorite();
+                      ? product.removeFromFavorite(_auth.token)
+                      : product.appendToFavorite(_auth.token);
                 },
               );
             },

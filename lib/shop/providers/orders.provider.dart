@@ -16,13 +16,16 @@ class OrderItem {
 
 class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
+  final String _authToken;
+
+  Orders(this._authToken, this._orders);
 
   List<OrderItem> get orders {
     return _orders.toList();
   }
 
   Future<void> fetchAndSetProducts() async {
-    final url = "https://flutter-basics-workbook.firebaseio.com/orders.json";
+    final url = "https://flutter-basics-workbook.firebaseio.com/orders.json?auth=${_authToken}";
 
     final Response response = await get(url);
     final Map<String, dynamic> data = json.decode(response.body);
@@ -53,7 +56,7 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addORder(List<CartItem> products, double total) async {
-    final url = "https://flutter-basics-workbook.firebaseio.com/orders.json";
+    final url = "https://flutter-basics-workbook.firebaseio.com/orders.json?auth=${_authToken}";
     var now = DateTime.now();
 
     final String encodedProduct = json.encode({

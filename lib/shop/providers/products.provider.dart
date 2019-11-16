@@ -1,10 +1,18 @@
 part of shop;
 
 class Products with ChangeNotifier {
+  String _authToken;
+
   static const url =
       "https://flutter-basics-workbook.firebaseio.com/products.json";
 
-  List<Product> _items = dummyProducts;
+  List<Product> _items;
+
+  Products(String authtoken, List<Product> items) {
+    _authToken = authtoken;
+    _items = items;
+    ChangeNotifier();
+  }
 
   List<Product> get favoriteItems {
     return _items.where((Product product) => product.isFavorite).toList();
@@ -15,7 +23,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    final Response response = await get(url);
+    final Response response = await get(url + '?auth=' + _authToken);
     final Map<String, dynamic> data = json.decode(response.body);
 
     if (data == null) {
@@ -47,7 +55,7 @@ class Products with ChangeNotifier {
 
     try {
       final Response response = await post(
-        url,
+        url + '?auth=' + _authToken,
         body: encodedProduct,
       );
 
@@ -81,7 +89,9 @@ class Products with ChangeNotifier {
     }
 
     final url =
-        "https://flutter-basics-workbook.firebaseio.com/products/${id}.json";
+        "https://flutter-basics-workbook.firebaseio.com/products/${id}.json" +
+            '?auth=' +
+            _authToken;
 
     final String encodedProduct = json.encode({
       'title': newProduct.title,
@@ -114,7 +124,9 @@ class Products with ChangeNotifier {
     notifyListeners();
 
     final url =
-        "https://flutter-basics-workbook.firebaseio.com/products/${product.id}.json";
+        "https://flutter-basics-workbook.firebaseio.com/products/${product.id}.json" +
+            '?auth=' +
+            _authToken;
 
     Response response = await delete(url);
 
