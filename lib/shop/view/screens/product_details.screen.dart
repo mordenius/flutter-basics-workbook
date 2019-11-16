@@ -16,7 +16,10 @@ class ProductDetailsScreen extends StatelessWidget {
             Container(
               height: 300,
               width: double.infinity,
-              child: Image.network(_product.imageUrl, fit: BoxFit.cover),
+              child: Hero(
+                tag: _product.id,
+                child: Image.network(_product.imageUrl, fit: BoxFit.cover),
+              ),
             ),
             SizedBox(height: 10),
             Text(
@@ -29,7 +32,7 @@ class ProductDetailsScreen extends StatelessWidget {
             SizedBox(height: 10),
             Container(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0 ),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Text(
                   _product.description,
                   textAlign: TextAlign.center,
