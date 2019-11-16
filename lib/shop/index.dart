@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart';
 
 import 'models/http_exception.dart';
+import 'view/screens/auth.screen.dart';
 
 part './providers/product.dart';
 part './providers/products.provider.dart';

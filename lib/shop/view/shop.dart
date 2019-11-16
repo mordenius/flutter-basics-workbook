@@ -5,6 +5,7 @@ class Shop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductOverviewScreen();
+    return AuthScreen();
+    // return ProductOverviewScreen();
   }
 }

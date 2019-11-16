@@ -7,6 +7,7 @@ import 'expenses/append_transaction.dart';
 import './../deli_meals/index.dart' as delimeals;
 
 import './../shop/index.dart' as shop;
+import './../shop/view/screens/auth.screen.dart';
 
 final routes = {
   delimeals.CategoryScreen.routeName: (context) => delimeals.CategoryScreen(),
@@ -19,6 +20,7 @@ final routes = {
   shop.OrdersScreen.routeName: (context) => shop.OrdersScreen(),
   shop.UserProductsScreen.routeName: (context) => shop.UserProductsScreen(),
   shop.EditProductScreen.routeName: (context) => shop.EditProductScreen(),
+  AuthScreen.routeName: (context) => AuthScreen()
 };
 
 class Router extends StatefulWidget {
