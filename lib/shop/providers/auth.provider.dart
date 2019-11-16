@@ -31,6 +31,14 @@ class Auth with ChangeNotifier {
     return _userId;
   }
 
+  void logout() {
+    _token = null;
+    _expiryDate = null;
+    _userId = null;
+
+    notifyListeners();
+  }
+
   Future<void> signup(String email, String pswd) {
     return _authenticate(email, pswd, 'signUp');
   }
@@ -56,8 +64,8 @@ class Auth with ChangeNotifier {
 
       _token = decoded['idToken'];
       _userId = decoded['localId'];
-      _expiryDate =
-          DateTime.now().add(Duration(seconds: int.parse(decoded['expiresIn'])));
+      _expiryDate = DateTime.now()
+          .add(Duration(seconds: int.parse(decoded['expiresIn'])));
 
       notifyListeners();
     } catch (error) {

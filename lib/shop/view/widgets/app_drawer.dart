@@ -24,12 +24,22 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushNamed(OrdersScreen.routeName);
             }),
-         Divider(),
+        Divider(),
         ListTile(
             leading: Icon(Icons.edit),
             title: Text('Manage Products'),
             onTap: () {
               Navigator.of(context).pushNamed(UserProductsScreen.routeName);
+            }),
+        Divider(
+          height: 25,
+        ),
+        ListTile(
+            leading: Icon(Icons.exit_to_app),
+            title: Text('Log out'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Provider.of<Auth>(context, listen: false).logout();
             }),
       ],
     ));
