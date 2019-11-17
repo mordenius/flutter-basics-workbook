@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import './quiz/quiz.dart';
 import './expenses/expenses.dart';
 import 'expenses/append_transaction.dart';
 
@@ -30,7 +29,6 @@ class Router extends StatefulWidget {
 
   @override
   _RouterState createState() => _RouterState([
-        Quiz(_domain.quiz),
         Expenses(_domain.expenses),
         delimeals.DeliMeals(),
         shop.Shop()
