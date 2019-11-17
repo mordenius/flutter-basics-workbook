@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_basics_workbook/great_places/screens/add_place_screen.dart';
 import 'package:provider/provider.dart';
 
 import './providers/great_places.dart';
@@ -17,9 +18,11 @@ class GreatPlacesApp extends StatelessWidget {
     return MultiProvider(
       providers: _providers,
       child: MaterialApp(
-        theme: greatPlacesTheme,
-        home: _GreatPlacesApp(),
-      ),
+          theme: greatPlacesTheme,
+          home: _GreatPlacesApp(),
+          routes: {
+            AddPlaceScreen.routeName: (context) => AddPlaceScreen(),
+          }),
     );
   }
 }
