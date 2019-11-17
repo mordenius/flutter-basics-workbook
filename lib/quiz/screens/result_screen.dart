@@ -23,13 +23,16 @@ class ResultScreen extends StatelessWidget {
               height: 16,
             ),
             Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-              style: Theme.of(context).textTheme.title.copyWith(fontSize: 16),
+              quiz.score.toString(),
+              style: Theme.of(context).textTheme.title.copyWith(fontSize: 50),
             ),
             OrientationBuilder(
               builder: (context, _orientation) {
                 return SizedBox(
-                  height: MediaQuery.of(context).orientation == Orientation.portrait ? 64 : 32,
+                  height:
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                          ? 64
+                          : 32,
                 );
               },
             ),
@@ -52,6 +55,7 @@ class ResultScreen extends StatelessWidget {
           ],
         ),
       ),
-    );;
+    );
+    ;
   }
 }

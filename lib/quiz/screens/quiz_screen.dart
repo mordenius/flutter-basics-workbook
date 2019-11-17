@@ -12,7 +12,7 @@ class QuizScreen extends StatelessWidget {
     Question question = quiz.getQuestion();
 
     final List<Widget> answers =
-        _getListAnswers(question.answers, (Answer answer) => quiz.next());
+        _getListAnswers(question.answers, quiz.next);
 
     return Container(
       width: double.infinity,
