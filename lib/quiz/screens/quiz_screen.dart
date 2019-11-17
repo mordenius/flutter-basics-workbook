@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import './../providers/quiz.provider.dart';
 import './../models/question.model.dart';
-import './../models/answer.model.dart';
 
 class QuizScreen extends StatelessWidget {
   @override
@@ -11,47 +10,61 @@ class QuizScreen extends StatelessWidget {
     Quiz quiz = Provider.of<Quiz>(context);
     Question question = quiz.getQuestion();
 
-    final List<Widget> answers =
-        _getListAnswers(question.answers, quiz.next);
-
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 32),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text(
-              quiz.progress,
-              style: Theme.of(context).textTheme.title.copyWith(fontSize: 32),
+      child: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Text(
+                    quiz.progress,
+                    style: Theme.of(context)
+                        .textTheme
+                        .title
+                        .copyWith(fontSize: 32),
+                  ),
+                  SizedBox(
+                    height: 32,
+                  ),
+                  Text(
+                    question.text,
+                    style: Theme.of(context)
+                        .textTheme
+                        .title
+                        .copyWith(fontSize: 16),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(
-              height: 32,
+          ),
+          Container(
+            height: 200,
+            child: Consumer<Quiz>(
+              builder: (ctx, _quiz, _child) => GridView.builder(
+                itemCount: question.answers.length,
+                itemBuilder: (ctx, index) {
+                  return GridTile(
+                    child: RaisedButton(
+                      child: Text(question.answers[index].text),
+                      onPressed: () => quiz.next(question.answers[index]),
+                    ),
+                  );
+                },
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 3 / 1,
+                    crossAxisSpacing: 10),
+              ),
             ),
-            Text(
-              question.text,
-              style: Theme.of(context).textTheme.title.copyWith(fontSize: 16),
-            ),
-            Column(children: answers),
-          ],
-        ),
+          ),
+        ],
       ),
     );
-  }
-
-  List<Widget> _getListAnswers(List<Answer> answers, onChoose) {
-    final List<Widget> answersWidgets = [];
-
-    for (Answer answer in answers) {
-      answersWidgets.add(
-        RaisedButton(
-          child: Text(answer.text),
-          onPressed: () => onChoose(answer),
-        ),
-      );
-    }
-
-    return answersWidgets;
   }
 }
