@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import './../providers/great_places.dart';
 import './../widgets/image_input.dart';
 
 class AddPlaceScreen extends StatefulWidget {
@@ -24,7 +26,11 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       return;
     }
 
+    final GreatPlaces greatPlaces =
+        Provider.of<GreatPlaces>(context, listen: false);
+    greatPlaces.addPlace(_titleController.text, _picture);
 
+    Navigator.of(context).pop();
   }
 
   @override
