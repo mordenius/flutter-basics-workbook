@@ -19,25 +19,46 @@ class PlacesListScreen extends StatelessWidget {
               }),
         ],
       ),
-      body: Consumer<GreatPlaces>(
-        child: Center(
-          child: Text('Got no places yet, start adding some!'),
-        ),
-        builder: (ctx, greatPlaces, child) => Center(
-          child: greatPlaces.items.length > 0
-              ? ListView.builder(
-                  itemCount: greatPlaces.items.length,
-                  itemBuilder: (_ctx, index) => ListTile(
-                    title: Text(greatPlaces.items[index].title),
-                    leading: CircleAvatar(
-                        backgroundImage: FileImage(
-                      greatPlaces.items[index].image,
-                    )),
-                  ),
-                )
-              : child,
-        ),
-      ),
+      body: FutureBuilder(
+          future: Provider.of<GreatPlaces>(context, listen: false)
+              .fetchAndSetPlaces(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (snapshot.error != null) {
+              return Center(
+                child: Text(
+                  snapshot.error.toString(),
+                  style: TextStyle(
+                      fontSize: 24, color: Theme.of(context).errorColor),
+                ),
+              );
+            }
+
+            return Consumer<GreatPlaces>(
+              child: Center(
+                child: Text('Got no places yet, start adding some!'),
+              ),
+              builder: (ctx, greatPlaces, child) => Center(
+                child: greatPlaces.items.length > 0
+                    ? ListView.builder(
+                        itemCount: greatPlaces.items.length,
+                        itemBuilder: (_ctx, index) => ListTile(
+                          title: Text(greatPlaces.items[index].title),
+                          leading: CircleAvatar(
+                              backgroundImage: FileImage(
+                            greatPlaces.items[index].image,
+                          )),
+                        ),
+                      )
+                    : child,
+              ),
+            );
+          }),
     );
   }
 }
