@@ -1,4 +1,4 @@
-package com.example.flutter_basics_workbook
+package com.my_workbooks.flutter_basics
 
 import android.os.Bundle
 
