@@ -1,6 +1,6 @@
 import 'package:location/location.dart';
 
-const _GOOGLE_API_KEY = '';
+const _GOOGLE_API_KEY = 'AIzaSyCU3JKviZ4mR0xv9YiVqgTsXbWm5zg0Kv0';
 
 class LocationHelper {
   static String generateLocationPreviewImage(
