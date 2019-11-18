@@ -7,6 +7,7 @@ import './providers/great_places.dart';
 import './theme.dart';
 
 import './screens/places_list_screen.dart';
+import './screens/place_detail_screen.dart';
 
 class GreatPlacesApp extends StatelessWidget {
   static final List<SingleChildCloneableWidget> _providers = [
@@ -22,6 +23,7 @@ class GreatPlacesApp extends StatelessWidget {
           home: _GreatPlacesApp(),
           routes: {
             AddPlaceScreen.routeName: (context) => AddPlaceScreen(),
+            PlaceDetailScreen.routeName: (context) => PlaceDetailScreen(),
           }),
     );
   }
