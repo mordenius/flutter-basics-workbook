@@ -47,8 +47,10 @@ class GreatPlaces with ChangeNotifier {
     final List<Map<String, dynamic>> dataPlaces =
         await DBHelper.getData('places');
 
+    List<Place> items = [];
+
     for (final dataPlace in dataPlaces) {
-      _items.add(
+      items.add(
         Place(
           id: dataPlace['id'],
           title: dataPlace['title'],
@@ -60,5 +62,7 @@ class GreatPlaces with ChangeNotifier {
         ),
       );
     }
+
+    _items = items;
   }
 }
