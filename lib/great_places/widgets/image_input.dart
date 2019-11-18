@@ -21,25 +21,50 @@ class _ImageInputState extends State<ImageInput> {
     final image =
         await ImagePicker.pickImage(source: ImageSource.camera, maxWidth: 600);
 
+    if (image == null) {
+      return;
+    }
+
     setState(() {
       _storedImage = image;
     });
 
-    _savePicture(image);
+    try {
+      await _savePicture(image);
+    } catch (error) {
+      _showAlert();
+    }
   }
 
   Future<void> _savePicture(File picture) async {
-    try {
-      final appDir = await syspath.getApplicationDocumentsDirectory();
-      final filename = path.basename(picture.path);
-      final fullname = path.join(appDir.path, filename);
+    final appDir = await syspath.getApplicationDocumentsDirectory();
+    final filename = path.basename(picture.path);
+    final fullname = path.join(appDir.path, filename);
 
-      File destination = await picture.copy(fullname);
+    File destination = await picture.copy(fullname);
 
-      widget.onSelectImage(destination);
-    } catch (error) {
-      //
-    }
+    widget.onSelectImage(destination);
+  }
+
+  void _showAlert() {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          title: Text('Some went wrong!'),
+          content: Text('Picture does not save!! Please try again later'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              textColor: Theme.of(ctx).primaryColor,
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override
