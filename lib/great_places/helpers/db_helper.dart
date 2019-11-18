@@ -25,7 +25,7 @@ class DBHelper {
 
   static _onCreate(sql.Database db, int _version, String tablename) {
     var executeQuery =
-        'CREATE TABLE user_$tablename(id TEXT PRIMARY KEY, title TEXT, image TEXT)';
+        'CREATE TABLE user_$tablename(id TEXT PRIMARY KEY, title TEXT, image TEXT, loc_lat REAL, loc_lng REAL, address TEXT)';
     return db.execute(executeQuery);
   }
 }
