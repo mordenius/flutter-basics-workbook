@@ -1,3 +1,4 @@
+import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter/material.dart';
 import './great_places/great_places.dart';
 
@@ -34,4 +35,8 @@ import './domain/expenses.dart' as expenseslib;
 //   final expenseslib.ExpensesLogic expenses = expensesLogic;
 // }
 
-void main() => runApp(GreatPlacesApp());
+Future<void> main() async {
+  await FlutterConfig.loadEnvVariables();
+
+  runApp(GreatPlacesApp());
+}
