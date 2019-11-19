@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+#import "FlutterConfigPlugin.h"
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -7,7 +8,7 @@ import Flutter
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    GMSServices.provideAPIKey("AIzaSyCU3JKviZ4mR0xv9YiVqgTsXbWm5zg0Kv0")
+    GMSServices.provideAPIKey(FlutterConfigPlugin envFor:@"GOOGLE_API_KEY")
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
