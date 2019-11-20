@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:equatable/equatable.dart';
 
 import 'package:flutter_basics_workbook/core/exceptions/failures.dart';
 import 'package:flutter_basics_workbook/core/usecase/usecase.dart';
@@ -17,5 +16,3 @@ class GetRandomNumberTrivia implements UseCase<NumberTrivia, NoParams> {
     return repository.getRandomNumberTrivia();
   }
 }
-
-class NoParams extends Equatable {}
