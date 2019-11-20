@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
 
-enum NumberType { trivia }
+enum NumberType { trivia, unknown }
 
 class NumberTrivia extends Equatable {
   final String text;
