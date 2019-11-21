@@ -28,9 +28,9 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
       localeDataSource.cacheNumberTrivia(remoteData);
       return Right(remoteData);
     } on ServerException {
-      return Left(ServerFailer());
+      return Left(ServerFailure());
     } on CacheException {
-      return Left(CacheFailer());
+      return Left(CacheFailure());
     }
   }
 

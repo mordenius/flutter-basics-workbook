@@ -90,7 +90,7 @@ void main() {
 
       verify(mockRemoteDataSource.getConcreteNumberTrivia(tNumber));
       verifyZeroInteractions(mockLocalDataSource);
-      expect(result, equals(Left(ServerFailer())));
+      expect(result, equals(Left(ServerFailure())));
     });
 
     test(
@@ -105,7 +105,7 @@ void main() {
 
       verify(mockRemoteDataSource.getConcreteNumberTrivia(tNumber));
       verify(mockLocalDataSource.cacheNumberTrivia(tNumberTriviaModel));
-      expect(result, equals(Left(CacheFailer())));
+      expect(result, equals(Left(CacheFailure())));
     });
   });
 
