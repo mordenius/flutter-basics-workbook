@@ -126,5 +126,18 @@ void main() {
       verify(mockLocalDataSource.getLastNumberTrivia());
       expect(result, equals(Right(tNumberTriviaModel)));
     });
+
+    test(
+        'should return cache failure when there is no cached data present',
+        () async {
+      when(mockLocalDataSource.getLastNumberTrivia())
+          .thenThrow(CacheException());
+
+      final result = await repository.getConcreteNumberTrivia(tNumber);
+
+      verifyZeroInteractions(mockRemoteDataSource);
+      verify(mockLocalDataSource.getLastNumberTrivia());
+      expect(result, equals(Left(CacheFailure())));
+    });
   });
 }
