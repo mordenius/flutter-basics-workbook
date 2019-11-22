@@ -113,5 +113,18 @@ void main() {
     setUp(() {
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
     });
+
+    test(
+        'should return last locally cached data when the cached data is present',
+        () async {
+      when(mockLocalDataSource.getLastNumberTrivia())
+          .thenAnswer((_) async => tNumberTriviaModel);
+
+      final result = await repository.getConcreteNumberTrivia(tNumber);
+
+      verifyZeroInteractions(mockRemoteDataSource);
+      verify(mockLocalDataSource.getLastNumberTrivia());
+      expect(result, equals(Right(tNumberTriviaModel)));
+    });
   });
 }
