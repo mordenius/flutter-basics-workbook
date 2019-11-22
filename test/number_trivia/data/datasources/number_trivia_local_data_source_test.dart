@@ -1,13 +1,14 @@
 import 'dart:convert';
 
-import 'package:flutter_basics_workbook/core/exceptions/exceptions.dart';
-import 'package:flutter_basics_workbook/number_trivia/data/models/number_trivia_model.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:matcher/matcher.dart';
 
+import 'package:flutter_basics_workbook/core/exceptions/exceptions.dart';
 import 'package:flutter_basics_workbook/number_trivia/data/datasources/number_trivia_local_data_source.dart';
+import 'package:flutter_basics_workbook/number_trivia/data/models/number_trivia_model.dart';
+import 'package:flutter_basics_workbook/number_trivia/domain/entities/number_trivia.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
@@ -46,6 +47,23 @@ void main() {
       final call = dataSource.getLastNumberTrivia;
 
       expect(() => call(), throwsA(TypeMatcher<CacheException>()));
+    });
+  });
+
+  group('cacheNumberTrivia', () {
+    final tNumberTriviaModel = NumberTriviaModel(
+        text: "Test Text", number: 1, type: NumberType.trivia);
+
+    test('should call SharedPreferences to cache the data', () async {
+      when(mockSharedPreferences.setString(any, any))
+          .thenAnswer((_) => Future.value(true));
+
+      final result = await dataSource.cacheNumberTrivia(tNumberTriviaModel);
+
+      final expectedJsonString = json.encode(tNumberTriviaModel.toString());
+      verify(mockSharedPreferences.setString(
+          'CACHED_NUMBER_TRIVIA', expectedJsonString));
+      expect(result, true);
     });
   });
 }
