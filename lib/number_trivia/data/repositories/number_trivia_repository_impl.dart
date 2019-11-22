@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_basics_workbook/core/exceptions/exceptions.dart';
 
-import './../../../core/platform/network_info.dart';
+import './../../../core/network/network_info.dart';
 import './../../../core/exceptions/failures.dart';
 import './../../domain/entities/number_trivia.dart';
 import './../../domain/repositories/number_trivia_repository.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_basics_workbook/core/exceptions/exceptions.dart';
 import 'package:flutter_basics_workbook/core/exceptions/failures.dart';
-import 'package:flutter_basics_workbook/core/platform/network_info.dart';
+import 'package:flutter_basics_workbook/core/network/network_info.dart';
 import 'package:flutter_basics_workbook/number_trivia/data/models/number_trivia_model.dart';
 import 'package:flutter_basics_workbook/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
 import 'package:flutter_basics_workbook/number_trivia/data/datasources/number_trivia_local_data_source.dart';
