@@ -9,6 +9,8 @@ import './../../domain/repositories/number_trivia_repository.dart';
 import './../datasources/number_trivia_local_data_source.dart';
 import './../datasources/number_trivia_remote_data_source.dart';
 
+typedef Future<NumberTrivia> _ConcreteOrRandomCallback();
+
 class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   final NumberTriviaRemoteDataSource remoteDataSource;
   final NumberTriviaLocalDataSource localeDataSource;
@@ -22,32 +24,22 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   @override
   Future<Either<Failure, NumberTrivia>> getConcreteNumberTrivia(
       int number) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final remoteData =
-            await remoteDataSource.getConcreteNumberTrivia(number);
-        localeDataSource.cacheNumberTrivia(remoteData);
-        return Right(remoteData);
-      } on ServerException {
-        return Left(ServerFailure());
-      } on CacheException {
-        return Left(CacheFailure());
-      }
-    } else {
-      try {
-        final cachedData = await localeDataSource.getLastNumberTrivia();
-        return Right(cachedData);
-      } on CacheException {
-        return Left(CacheFailure());
-      }
-    }
+    final sourceCall = () => remoteDataSource.getConcreteNumberTrivia(number);
+    return _gettingTriviaHandle(sourceCall);
   }
 
   @override
   Future<Either<Failure, NumberTrivia>> getRandomNumberTrivia() async {
+    final sourceCall = () => remoteDataSource.getRandomNumberTrivia();
+    return _gettingTriviaHandle(sourceCall);
+  }
+
+  Future<Either<Failure, NumberTrivia>> _gettingTriviaHandle(
+      _ConcreteOrRandomCallback sourceCall,
+      [int number]) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteData = await remoteDataSource.getRandomNumberTrivia();
+        final remoteData = await sourceCall();
         localeDataSource.cacheNumberTrivia(remoteData);
         return Right(remoteData);
       } on ServerException {
