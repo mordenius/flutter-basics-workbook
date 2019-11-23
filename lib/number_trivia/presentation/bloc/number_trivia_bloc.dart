@@ -45,26 +45,24 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
       yield* inputEither.fold((failure) async* {
         yield ErrorNumberTriviaState(message: INVALID_INPUT_FAILURE_MESSAGE);
       }, (integer) async* {
-        yield LoadingNumberTriviaState();
-        final failureOrTrivia =
-            await getConcreteNumberTrivia(Params(number: integer));
-
-        yield* failureOrTrivia.fold((failure) async* {
-          yield ErrorNumberTriviaState(message: _mapFailureToMessage(failure));
-        }, (numberTrivia) async* {
-          yield LoadedNumberTriviaState(trivia: numberTrivia);
-        });
+        yield* _getTrivia(
+            () async => await getConcreteNumberTrivia(Params(number: integer)));
       });
     } else if (event is GetTriviaForRandomNumber) {
-      yield LoadingNumberTriviaState();
-      final failureOrTrivia = await getRandomNumberTrivia(NoParams());
-
-      yield* failureOrTrivia.fold((failure) async* {
-        yield ErrorNumberTriviaState(message: _mapFailureToMessage(failure));
-      }, (numberTrivia) async* {
-        yield LoadedNumberTriviaState(trivia: numberTrivia);
-      });
+      yield* _getTrivia(() async => await getRandomNumberTrivia(NoParams()));
     }
+  }
+
+  Stream<NumberTriviaState> _getTrivia(
+      Future<Either<Failure, NumberTrivia>> Function() call) async* {
+    yield LoadingNumberTriviaState();
+    final failureOrTrivia = await call();
+
+    yield* failureOrTrivia.fold((failure) async* {
+      yield ErrorNumberTriviaState(message: _mapFailureToMessage(failure));
+    }, (numberTrivia) async* {
+      yield LoadedNumberTriviaState(trivia: numberTrivia);
+    });
   }
 
   String _mapFailureToMessage(Failure failure) {
