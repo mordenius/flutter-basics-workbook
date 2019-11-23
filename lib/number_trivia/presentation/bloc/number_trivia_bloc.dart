@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_basics_workbook/core/exceptions/failures.dart';
-import 'package:flutter_basics_workbook/core/usecase/usecase.dart';
-import 'package:flutter_basics_workbook/number_trivia/domain/entities/number_trivia.dart';
 
+import './../../../core/exceptions/failures.dart';
+import './../../../core/usecase/usecase.dart';
 import './../../../core/util/input_converter.dart';
+import './../../domain/entities/number_trivia.dart';
 import './../../domain/usecases/get_concrete_number_trivia.dart';
 import './../../domain/usecases/get_random_number_trivia.dart';
 import './bloc.dart';
