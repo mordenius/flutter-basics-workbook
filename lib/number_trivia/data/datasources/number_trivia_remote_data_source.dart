@@ -18,23 +18,18 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
   NumberTriviaRemoteDataSourceImpl({@required this.client});
 
   @override
-  Future<NumberTrivia> getConcreteNumberTrivia(int number) async {
-    final http.Response response = await client.get(
-        'http://numbertrivia.com/$number',
-        headers: {'Content-Type': 'application/json'});
-
-    if (response.statusCode == 200) {
-      return NumberTriviaModel.fromJson(json.decode(response.body));
-    }
-
-    throw ServerException();
+  Future<NumberTrivia> getConcreteNumberTrivia(int number) {
+    return _getTriviaFromUrl('http://numbertrivia.com/$number');
   }
 
   @override
   Future<NumberTrivia> getRandomNumberTrivia() async {
-    final http.Response response = await client.get(
-        'http://numbertrivia.com/random',
-        headers: {'Content-Type': 'application/json'});
+    return _getTriviaFromUrl('http://numbertrivia.com/random');
+  }
+
+  Future<NumberTrivia> _getTriviaFromUrl(String url) async {
+    final http.Response response =
+        await client.get(url, headers: {'Content-Type': 'application/json'});
 
     if (response.statusCode == 200) {
       return NumberTriviaModel.fromJson(json.decode(response.body));
