@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_basics_workbook/core/exceptions/failures.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -86,6 +87,36 @@ void main() {
       await untilCalled(mockGetConcrete(any));
 
       verify(mockGetConcrete(Params(number: tNumberParsed)));
+    });
+
+    test('should emit [Loading, Loaded] when data is getten success', () async {
+      setUpMockInputConverterSuccess();
+      when(mockGetConcrete(any)).thenAnswer((_) async => Right(tNumberTrivia));
+
+      final expectedStates = [
+        InitialNumberTriviaState(),
+        LoadingNumberTriviaState(),
+        LoadedNumberTriviaState(trivia: tNumberTrivia),
+      ];
+
+      expectLater(bloc, emitsInOrder(expectedStates));
+
+      bloc.add(GetTriviaForConcreteNumber(tNumberString));
+    });
+
+    test('should emit [Loading, Error] when getting data fails', () async {
+      setUpMockInputConverterSuccess();
+      when(mockGetConcrete(any)).thenAnswer((_) async => Left(ServerFailure()));
+
+      final expectedStates = [
+        InitialNumberTriviaState(),
+        LoadingNumberTriviaState(),
+        ErrorNumberTriviaState(message: SERVER_FAILURE_MESSAGE),
+      ];
+
+      expectLater(bloc, emitsInOrder(expectedStates));
+
+      bloc.add(GetTriviaForConcreteNumber(tNumberString));
     });
   });
 }
