@@ -118,5 +118,21 @@ void main() {
 
       bloc.add(GetTriviaForConcreteNumber(tNumberString));
     });
+
+    test('''should emit [Loading, Error] with a proper message 
+     for the error when getting data fails''', () async {
+      setUpMockInputConverterSuccess();
+      when(mockGetConcrete(any)).thenAnswer((_) async => Left(CacheFailure()));
+
+      final expectedStates = [
+        InitialNumberTriviaState(),
+        LoadingNumberTriviaState(),
+        ErrorNumberTriviaState(message: CACHE_FAILURE_MESSAGE),
+      ];
+
+      expectLater(bloc, emitsInOrder(expectedStates));
+
+      bloc.add(GetTriviaForConcreteNumber(tNumberString));
+    });
   });
 }
