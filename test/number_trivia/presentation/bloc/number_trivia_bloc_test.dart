@@ -43,11 +43,20 @@ void main() {
     final tNumberTrivia = NumberTrivia(
         number: tNumberParsed, text: "Test Trivia", type: NumberType.trivia);
 
+    void setUpMockInputConverterSuccess() {
+      when(mockinputConverter.stringToUnsignedInteger(any))
+          .thenReturn(Right(tNumberParsed));
+    }
+
+    void setUpMockInputConverterFailed() {
+      when(mockinputConverter.stringToUnsignedInteger(any))
+          .thenReturn(Left(InvalidInputFailure()));
+    }
+
     test(
         'should call the InputConverter to convert the string to an unsigned integer',
         () async {
-      when(mockinputConverter.stringToUnsignedInteger(any))
-          .thenReturn(Right(tNumberParsed));
+      setUpMockInputConverterSuccess();
 
       bloc.add(GetTriviaForConcreteNumber(tNumberString));
       await untilCalled(mockinputConverter.stringToUnsignedInteger(any));
@@ -56,8 +65,7 @@ void main() {
     });
 
     test('should emit [Error] when the input is invalid', () async {
-      when(mockinputConverter.stringToUnsignedInteger(any))
-          .thenReturn(Left(InvalidInputFailure()));
+      setUpMockInputConverterFailed();
 
       final expectedStates = [
         InitialNumberTriviaState(),
@@ -70,8 +78,7 @@ void main() {
     });
 
     test('should get data from the concrete use case', () async {
-      when(mockinputConverter.stringToUnsignedInteger(any))
-          .thenReturn(Right(tNumberParsed));
+      setUpMockInputConverterSuccess();
 
       when(mockGetConcrete(any)).thenAnswer((_) async => Right(tNumberTrivia));
 
