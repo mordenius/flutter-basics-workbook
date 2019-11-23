@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_basics_workbook/core/exceptions/failures.dart';
+import 'package:flutter_basics_workbook/core/usecase/usecase.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -133,6 +134,69 @@ void main() {
       expectLater(bloc, emitsInOrder(expectedStates));
 
       bloc.add(GetTriviaForConcreteNumber(tNumberString));
+    });
+  });
+
+  group('GetTriviaRandomNumber', () {
+    final tNumberString = '123';
+    final tNumberParsed = 123;
+    final tNumberTrivia = NumberTrivia(
+        number: tNumberParsed, text: "Test Trivia", type: NumberType.trivia);
+
+    test('should get data from the random use case', () async {
+      when(mockGetRandom(NoParams()))
+          .thenAnswer((_) async => Right(tNumberTrivia));
+
+      bloc.add(GetTriviaForRandomNumber());
+      await untilCalled(mockGetRandom(NoParams()));
+
+      verify(mockGetRandom(NoParams()));
+    });
+
+    test('should emit [Loading, Loaded] when data is getten success', () async {
+      when(mockGetRandom(NoParams()))
+          .thenAnswer((_) async => Right(tNumberTrivia));
+
+      final expectedStates = [
+        InitialNumberTriviaState(),
+        LoadingNumberTriviaState(),
+        LoadedNumberTriviaState(trivia: tNumberTrivia),
+      ];
+
+      expectLater(bloc, emitsInOrder(expectedStates));
+
+      bloc.add(GetTriviaForRandomNumber());
+    });
+
+    test('should emit [Loading, Error] when getting data fails', () async {
+      when(mockGetRandom(NoParams()))
+          .thenAnswer((_) async => Left(ServerFailure()));
+
+      final expectedStates = [
+        InitialNumberTriviaState(),
+        LoadingNumberTriviaState(),
+        ErrorNumberTriviaState(message: SERVER_FAILURE_MESSAGE),
+      ];
+
+      expectLater(bloc, emitsInOrder(expectedStates));
+
+      bloc.add(GetTriviaForRandomNumber());
+    });
+
+    test('''should emit [Loading, Error] with a proper message 
+     for the error when getting data fails''', () async {
+      when(mockGetRandom(NoParams()))
+          .thenAnswer((_) async => Left(CacheFailure()));
+
+      final expectedStates = [
+        InitialNumberTriviaState(),
+        LoadingNumberTriviaState(),
+        ErrorNumberTriviaState(message: CACHE_FAILURE_MESSAGE),
+      ];
+
+      expectLater(bloc, emitsInOrder(expectedStates));
+
+      bloc.add(GetTriviaForRandomNumber());
     });
   });
 }
