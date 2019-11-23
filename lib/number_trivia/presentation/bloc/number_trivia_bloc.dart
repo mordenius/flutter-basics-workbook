@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_basics_workbook/core/exceptions/failures.dart';
+import 'package:flutter_basics_workbook/core/usecase/usecase.dart';
+import 'package:flutter_basics_workbook/number_trivia/domain/entities/number_trivia.dart';
 
 import './../../../core/util/input_converter.dart';
 import './../../domain/usecases/get_concrete_number_trivia.dart';
@@ -51,6 +54,15 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
         }, (numberTrivia) async* {
           yield LoadedNumberTriviaState(trivia: numberTrivia);
         });
+      });
+    } else if (event is GetTriviaForRandomNumber) {
+      yield LoadingNumberTriviaState();
+      final failureOrTrivia = await getRandomNumberTrivia(NoParams());
+
+      yield* failureOrTrivia.fold((failure) async* {
+        yield ErrorNumberTriviaState(message: _mapFailureToMessage(failure));
+      }, (numberTrivia) async* {
+        yield LoadedNumberTriviaState(trivia: numberTrivia);
       });
     }
   }
