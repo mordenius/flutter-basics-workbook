@@ -69,4 +69,41 @@ void main() {
           throwsA(TypeMatcher<ServerException>()));
     });
   });
+
+  group('getRandomNumberTrivia', () {
+    final tNumber = 1;
+    final tNumberTriviaModel =
+        NumberTriviaModel.fromJson(json.decode(fixture('trivia.json')));
+
+    test('''should perform a GET request on a URL with number 
+        being the endpoint and with application/json header''', () async {
+      setUpMoskRequestSuccess();
+
+      dataSource.getRandomNumberTrivia();
+
+      verify(mockHttpClient.get('http://numbertrivia.com/random',
+          headers: {'Content-Type': 'application/json'}));
+    });
+
+    test('should return a NumberTrivia when the response code is 200 (success)',
+        () async {
+      setUpMoskRequestSuccess();
+
+      final result = await dataSource.getRandomNumberTrivia();
+
+      expect(result, isA<NumberTrivia>());
+      expect(result, equals(tNumberTriviaModel));
+    });
+
+    test(
+        'should throw a Server Exception when the response code is 404 or other (failure)',
+        () async {
+      setUpMoskRequestFailure();
+
+      final result = dataSource.getRandomNumberTrivia;
+
+      expect(
+          () async => await result(), throwsA(TypeMatcher<ServerException>()));
+    });
+  });
 }
