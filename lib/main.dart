@@ -5,6 +5,8 @@ import './great_places/great_places.dart';
 import './domain/quiz.dart' as quizlib;
 import './domain/expenses.dart' as expenseslib;
 
+import './number_trivia/number_trivia.dart' as nt;
+
 // import './view/App.dart';
 
 // var quizlibLogic = quizlib.QuizLogic([
@@ -36,7 +38,9 @@ import './domain/expenses.dart' as expenseslib;
 // }
 
 Future<void> main() async {
-  await FlutterConfig.loadEnvVariables();
+  // await FlutterConfig.loadEnvVariables();
+  
+  // runApp(GreatPlacesApp());
 
-  runApp(GreatPlacesApp());
+  nt.main();
 }
