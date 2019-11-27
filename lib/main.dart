@@ -1,13 +1,12 @@
-import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 import './great_places/great_places.dart';
 
 import './domain/expenses.dart' as expenseslib;
 
-import './quiz/quiz.dart';
 import './number_trivia/number_trivia.dart' as nt;
 
-// import './view/App.dart';
+import './curator/curator.dart';
 
 // var expensesLogic = expenseslib.ExpensesLogic();
 
@@ -22,5 +21,7 @@ Future<void> main() async {
 
   // nt.main();
 
-  runApp(QuizApp());
+  runApp(Curator());
 }
+
+
