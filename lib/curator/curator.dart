@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_basics_workbook/quiz/quiz.dart';
 
+import './theme.dart';
+
 enum Feature { quiz }
 
 class Curator extends StatefulWidget {
-  Feature _currentFeature;
-
   @override
   State<StatefulWidget> createState() => _CuratorState();
 }
 
 class _CuratorState extends State<Curator> {
+  Feature _currentFeature;
+
   void _goTo(Feature feature) {
     setState(() {
-      widget._currentFeature = feature;
+      _currentFeature = feature;
     });
   }
 
@@ -29,11 +31,12 @@ class _CuratorState extends State<Curator> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget._currentFeature == Feature.quiz) {
+    if (_currentFeature == Feature.quiz) {
       return QuizApp();
     }
 
     return MaterialApp(
+      theme: curatorTheme,
       home: Scaffold(
         body: Container(
           width: double.infinity,
