@@ -4,8 +4,20 @@ import 'package:provider/provider.dart';
 import './../shop/providers/auth.provider.dart';
 import './../shop/index.dart' as shop;
 
-import './theme.dart';
 import './router.dart';
+
+import './../core/view/abstract_app.dart';
+
+var providers = [
+  ChangeNotifierProvider.value(value: Auth()),
+  ChangeNotifierProxyProvider<Auth, shop.Products>(
+      builder: (ctx, auth, previousProducts) => shop.Products(auth.token,
+          auth.userId, previousProducts == null ? [] : previousProducts.items)),
+  ChangeNotifierProvider.value(value: shop.Cart()),
+  ChangeNotifierProxyProvider<Auth, shop.Orders>(
+      builder: (ctx, auth, previousOrders) => shop.Orders(auth.token,
+          auth.userId, previousOrders == null ? [] : previousOrders.orders)),
+];
 
 class App extends StatelessWidget {
   final dynamic _domain;
@@ -14,37 +26,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: Auth()),
-        ChangeNotifierProxyProvider<Auth, shop.Products>(
-            builder: (ctx, auth, previousProducts) => shop.Products(
-                auth.token,
-                auth.userId,
-                previousProducts == null ? [] : previousProducts.items)),
-        ChangeNotifierProvider.value(value: shop.Cart()),
-        ChangeNotifierProxyProvider<Auth, shop.Orders>(
-            builder: (ctx, auth, previousOrders) => shop.Orders(
-                auth.token,
-                auth.userId,
-                previousOrders == null ? [] : previousOrders.orders)),
-      ],
-      child: MaterialApp(
-        theme: theme,
-        home: Router(this._domain),
-        routes: routes,
-        onUnknownRoute: (RouteSettings settings) {
-          return MaterialPageRoute(
-            builder: (_) => Scaffold(
-              appBar: AppBar(title: Text('Unknown route')),
-              body: Container(
-                margin: EdgeInsets.all(20),
-                child: Text('404 page', style: TextStyle(fontSize: 30)),
-              ),
-            ),
-          );
-        },
-      ),
+    return AbstractApp(
+      Router(this._domain),
+      providers: providers,
+      theme: ThemeData(),
+      routes: routes,
     );
   }
 }
