@@ -1,5 +1,3 @@
-part of expenses;
-
 class Transaction {
   final String id;
   final String name;
