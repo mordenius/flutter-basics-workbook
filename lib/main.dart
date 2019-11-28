@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import './great_places/great_places.dart';
 
-import './domain/expenses.dart' as expenseslib;
-
 import './number_trivia/number_trivia.dart' as nt;
 
 import './curator/curator.dart';
