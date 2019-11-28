@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_basics_workbook/quiz/quiz.dart';
+import 'package:flutter_basics_workbook/expenses_refactor/expenses.dart';
 
 import './theme.dart';
 
-enum Feature { quiz }
+enum Feature { quiz, expenses }
 
 class Curator extends StatefulWidget {
   @override
@@ -35,6 +36,10 @@ class _CuratorState extends State<Curator> {
       return QuizApp();
     }
 
+    if (_currentFeature == Feature.expenses) {
+      return ExpensesApp();
+    }
+
     return MaterialApp(
       theme: curatorTheme,
       home: Scaffold(
@@ -53,6 +58,10 @@ class _CuratorState extends State<Curator> {
                 height: 32,
               ),
               _buildSelector('Quiz', Feature.quiz),
+              SizedBox(
+                height: 32,
+              ),
+              _buildSelector('Expenses', Feature.expenses),
             ],
           ),
         ),
