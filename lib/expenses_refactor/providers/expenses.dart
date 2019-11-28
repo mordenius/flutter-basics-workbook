@@ -1,4 +1,4 @@
-part of expenses;
+import './../models/transaction.dart';
 
 class ExpensesController {
   List<Transaction> transactions = [];
