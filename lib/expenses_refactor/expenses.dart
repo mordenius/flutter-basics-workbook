@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './providers/expenses.dart';
-import './screens/transactions_list_screen.dart';
+import './screens/expenses_screen.dart';
 
 class ExpensesApp extends StatelessWidget {
   @override
@@ -10,7 +10,7 @@ class ExpensesApp extends StatelessWidget {
     return MaterialApp(
       home: ChangeNotifierProvider<Expenses>(
         builder: (_) => Expenses(),
-        child: TransactionsListScreen(),
+        child: ExpensesScreen(),
       ),
     );
   }

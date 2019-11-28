@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 
 import './../providers/expenses.dart';
 
-class TransactionsListScreen extends StatelessWidget {
+import './../widgets/transactions_list.dart';
+
+class ExpensesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +14,8 @@ class TransactionsListScreen extends StatelessWidget {
       ),
       body: Consumer<Expenses>(
         builder: (ctx, expenses, _) {
-          return Text('Transaction list');
+          return TransactionsList(
+              expenses.transactions, expenses.removeTransaction);
         },
       ),
     );
