@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_basics_workbook/quiz/quiz.dart';
-import 'package:flutter_basics_workbook/expenses_refactor/expenses.dart';
+import 'package:flutter_basics_workbook/expenses/expenses.dart';
 
 import './theme.dart';
 
